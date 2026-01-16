@@ -1,4 +1,3 @@
-  
 --- 
 title: Seven sins of memory  
 date: 2025-10-22  
