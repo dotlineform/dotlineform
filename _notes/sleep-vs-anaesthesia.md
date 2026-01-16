@@ -4,7 +4,7 @@ date: 2025-10-23
 summary: The internal dynamics and reversibility of their states are radically different.  
 tags: [consciousness, memory]  
 html_inserts:  
-  - path: /assets/html/sleep-vs-anaesthesia.html  
+  - file: sleep-vs-anaesthesia.html  
     label: Sleep vs Anaesthesia  
 ---
  

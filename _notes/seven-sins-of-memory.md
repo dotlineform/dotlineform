@@ -5,7 +5,7 @@ date: 2025-10-22
 summary: Forgetting and distortion are not failures.  
 tags: [consciousness, memory]  
 html_inserts:  
-  - path: seven-sins-of-memory.html  
+  - file: seven-sins-of-memory.html  
     label: Seven sins of memory  
 ---
 
