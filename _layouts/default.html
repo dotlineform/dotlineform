@@ -33,7 +33,7 @@
         {% assign is_note = (page.collection == 'notes') %}
 
         {% if is_notes_index %}
-          <span class="nav-item is-active" aria-current="page">Notes</span>
+          <span class="nav-item is-active" aria-current="page">Notes span</span>
         {% elsif is_note %}
           <a class="nav-item is-active" href="{{ '/notes/' | relative_url }}" aria-current="page">Notes</a>
         {% else %}
