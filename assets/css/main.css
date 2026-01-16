@@ -259,7 +259,7 @@ figure.diagram figcaption{
 
 /* Notes index list (no bullets, no underline) */
 .note-index{ margin-top: var(--space-3); }
-.note-index-item{ display: grid; grid-template-columns: 110px 1fr; align-items: baseline; column-gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.note-index-item{ display: grid; grid-template-columns: max-content 1fr; align-items: baseline; column-gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .note-index-item:last-child{ border-bottom: 0; }
 .note-index-link:link,
 .note-index-link:active,
@@ -282,7 +282,7 @@ figure.diagram figcaption{
   outline: 2px solid var(--border-strong);
   outline-offset: 2px;
 }
-.note-index-date{ font-size: 13px; color: var(--muted); white-space: nowrap; text-align: right; }
+.note-index-date{ font-size: 13px; color: var(--muted); white-space: nowrap; text-align: left; }
 
 @media (max-width: 640px){
   .note-index-item{ grid-template-columns: 1fr; }
