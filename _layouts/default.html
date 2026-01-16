@@ -9,6 +9,16 @@
   <meta name="description" content="{{ page.description | escape }}">
   {% endif %}
 
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        document.documentElement.setAttribute('data-theme', (t === 'light' || t === 'dark') ? t : 'auto');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'auto');
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 </head>
 <body>
@@ -30,7 +40,40 @@
   <footer class="site-footer">
     <div class="container">
       <span class="muted">© {{ site.time | date: "%Y" }} {{ site.title }}</span>
+      <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme: auto</button>
     </div>
   </footer>
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    if (!btn) return;
+
+    function getTheme() {
+      return document.documentElement.getAttribute('data-theme') || 'auto';
+    }
+
+    function setTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      try {
+        if (t === 'auto') localStorage.removeItem('theme');
+        else localStorage.setItem('theme', t);
+      } catch (e) {}
+      btn.textContent = 'Theme: ' + t;
+    }
+
+    function nextTheme(t) {
+      if (t === 'auto') return 'light';
+      if (t === 'light') return 'dark';
+      return 'auto';
+    }
+
+    // Initialise label from current attribute
+    setTheme(getTheme());
+
+    btn.addEventListener('click', function () {
+      setTheme(nextTheme(getTheme()));
+    });
+  })();
+</script>
 </body>
 </html>

@@ -47,7 +47,34 @@
   }
 }
 
+/* User override themes (take precedence over system preference) */
+html[data-theme="light"]{
+  --text: #111;
+  --muted: #444;
+  --bg: #fff;
+  --panel: #fafafa;
+  --panel-2: #f6f6f6;
+  --border: #e6e6e6;
+  --border-strong: #cfcfcf;
+  --link: #0b57d0;
+  --link-hover: #063a8a;
+}
+
+html[data-theme="dark"]{
+  --text: #f2f2f2;
+  --muted: #c7c7c7;
+  --bg: #0f0f10;
+  --panel: #161618;
+  --panel-2: #1c1c1f;
+  --border: #2b2b30;
+  --border-strong: #3a3a40;
+  --link: #7bb0ff;
+  --link-hover: #a7c9ff;
+}
+
 html { color-scheme: light dark; }
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
 body{
   font-family: var(--font-sans);
   line-height: var(--line);
@@ -189,6 +216,19 @@ figure.diagram figcaption{
 .site-nav a{
   margin-left: 14px;
 }
+.theme-toggle{
+  margin-left: 14px;
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+}
+.theme-toggle:hover{
+  border-color: var(--border-strong);
+}
 .site-footer{
   border-top: 1px solid var(--border);
   margin-top: 40px;
@@ -196,4 +236,8 @@ figure.diagram figcaption{
 .site-footer .container{
   padding-top: 18px;
   padding-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
