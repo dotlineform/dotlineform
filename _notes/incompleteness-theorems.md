@@ -1,4 +1,3 @@
-  
 ---
 title: Incompleteness Theorems  
 date: 2025-10-22  
@@ -375,7 +374,7 @@ Gödel’s theorem is about *these* “true but unprovable” statements. But G�
   
 Gödel’s theorem reveals something profound about truth and perspective: you can describe the system from outside (meta-level), but from within, some truths will always remain unreachable. Every consistent system needs a bigger viewpoint to certify it, but the bigger system, in turn, cannot certify itself. It’s the logical equivalent of the eye that can never see itself directly - it always needs a mirror, and each mirror adds another layer of reflection. Gödel’s theorem is mathematical, but it contains within it the recognition that mathematics cannot close perfectly around itself.  
   
-S**ummary**  
+**Summary**  
   
 
 | Statement | Answer |
