@@ -16,6 +16,7 @@
 
   --link: #0b57d0;
   --link-hover: #063a8a;
+  --link-visited: #5b2aa6;
 
   --container: 980px;
 
@@ -44,6 +45,7 @@
     --border-strong: #3a3a40;
     --link: #7bb0ff;
     --link-hover: #a7c9ff;
+    --link-visited: #c39bff;
   }
 }
 
@@ -58,6 +60,7 @@ html[data-theme="light"]{
   --border-strong: #cfcfcf;
   --link: #0b57d0;
   --link-hover: #063a8a;
+  --link-visited: #5b2aa6;
 }
 
 html[data-theme="dark"]{
@@ -70,6 +73,7 @@ html[data-theme="dark"]{
   --border-strong: #3a3a40;
   --link: #7bb0ff;
   --link-hover: #a7c9ff;
+  --link-visited: #c39bff;
 }
 
 html { color-scheme: light dark; }
@@ -99,8 +103,17 @@ p{ margin: 0 0 var(--space-3); }
 ul, ol{ margin: 0 0 var(--space-3); padding-left: 1.2em; }
 li{ margin: 0 0 var(--space-1); }
 
-a{ color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
-a:hover{ color: var(--link-hover); }
+a:link{ color: var(--link); text-decoration: none; }
+a:visited{ color: var(--link-visited); text-decoration: none; }
+a:hover{ color: var(--link-hover); text-decoration: underline; text-underline-offset: 2px; }
+a:focus-visible{ outline: 2px solid var(--border-strong); outline-offset: 2px; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Prose-only: keep links visibly underlined by default */
+.note-body a:link,
+.note-body a:visited{
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 hr{ border: 0; border-top: 1px solid var(--border); margin: var(--space-5) 0; }
 
