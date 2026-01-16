@@ -1,5 +1,28 @@
 ---
 layout: default
 ---
-<h1>{{ page.title }}</h1>
-{{ content }}
+
+<article class="note">
+  <header class="note-header">
+    <h1>{{ page.title }}</h1>
+    {% if page.date %}
+      <p class="muted small">{{ page.date | date: "%Y-%m-%d" }}</p>
+    {% endif %}
+  </header>
+
+  <div class="note-body">
+    {{ content }}
+  </div>
+
+  {% if page.html_inserts and page.html_inserts.size > 0 %}
+    <hr>
+    <section class="note-inserts">
+      <h2>Summaries with References</h2>
+      <ul>
+        {% for item in page.html_inserts %}
+          <li>🔗 <a href="{{ item.path | relative_url }}">{{ item.label | default: item.path }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+</article>
