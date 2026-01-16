@@ -1,15 +1,14 @@
 ---
-layout: note
-title: Time vanishing
-date: 2025-10-06
-summary: Perspectives on time.
-tags: [memory, time, methods]
-html_inserts:
-  - path: /assets/html/the-vanishing-of-time.html
-    label: The Vanishing of Time
----
+title: Time vanishing  
+date: 2025-10-06  
+summary: Perspectives on time.  
+tags: [memory, time, methods]  
+html_inserts:  
+  - path: /assets/html/the-vanishing-of-time.html  
+    label: The Vanishing of Time  
+--- 
 
-# Time vanishing  
+# Time vanishing
   
 In several contemporary physical frameworks, time is treated not as a basic variable but as something that “drops out” or “emerges” from deeper, timeless relations. In general relativity (Einstein, 1915), time is not absolute but part of spacetime: a dynamic geometry shaped by mass–energy. The Einstein field equations don’t privilege a single, universal “now.” The consequence is that there’s no external clock; *time is relational*. Time ceases to be a universal variable and becomes a coordinate within a 4D manifold that can be “sliced” in many ways.  
   
@@ -50,6 +49,5 @@ Physicists sometimes literally call time a “vanishing variable” in certain H
   
 Thus **time = memory of change** — an emergent index of correlation stability. This aligns both with Bergson’s *duration* (the felt continuity of change) and with Rovelli’s *relational time* (the network of correlations). In deep physics, time may *vanish* as an independent variable — yet reappear as an emergent rhythm of correlation and memory. What we call “the flow of time” could simply be the way the universe *remembers itself*.  
   
-{% assign item = page.html_inserts[0] %}
-🔗 <a href="{{ item.path | relative_url }}">{{ item.label | default: 'The Vanishing of Time' }}</a>
+🔗 The Vanishing of Time  
   
