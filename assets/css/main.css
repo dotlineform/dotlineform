@@ -168,3 +168,32 @@ figure.diagram figcaption{
 
 /* Small utility */
 .muted{ color: var(--muted); }
+
+.site-header{
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+.site-header .container{
+  padding-top: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+.site-title a{
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--text);
+}
+.site-nav a{
+  margin-left: 14px;
+}
+.site-footer{
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+.site-footer .container{
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
