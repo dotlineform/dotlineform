@@ -261,18 +261,26 @@ figure.diagram figcaption{
 .note-index{ margin-top: var(--space-3); }
 .note-index-item{ display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .note-index-item:last-child{ border-bottom: 0; }
-.note-index-link,
 .note-index-link:link,
-.note-index-link:visited,
 .note-index-link:active,
 .note-index-link:focus{
   text-decoration: none !important;
-  color: var(--text);
+  color: var(--link);
+  font-weight: 600;
+}
+.note-index-link:visited{
+  text-decoration: none !important;
+  color: var(--link-visited);
   font-weight: 600;
 }
 .note-index-link:hover{
+  color: var(--link-hover);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+.note-index-link:focus-visible{
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
 }
 .note-index-date{ font-size: 13px; color: var(--muted); white-space: nowrap; }
 
