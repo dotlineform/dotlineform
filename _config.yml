@@ -1,8 +1,22 @@
+# Site identity
 title: dotlineform
 url: "https://dotlineform.github.io"
-baseurl: "/dotlineform"
+baseurl: "/dotlineform"  # project site base path
 
 collections:
   notes:
     output: true
-    permalink: /notes/:name/
+    permalink: /notes/:name/  # clean note URLs
+
+defaults:
+  # Apply note layout automatically to the notes collection
+  - scope:
+      path: ""
+      type: notes
+    values:
+      layout: note
+  # Apply default layout automatically to other pages
+  - scope:
+      path: ""
+    values:
+      layout: default
