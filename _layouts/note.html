@@ -17,10 +17,20 @@ layout: default
   {% if page.html_inserts and page.html_inserts.size > 0 %}
     <hr>
     <section class="note-inserts">
-      <h2>Summary</h2>
+      <h2>Inserts</h2>
       <div class="note-insert-links">
         {% for item in page.html_inserts %}
-          <p class="note-insert-link">🔗 <a href="{{ item.path | relative_url }}">{{ item.label | default: item.path }}</a></p>
+          {% if item.path %}
+            {% assign href = item.path %}
+            {% assign text = item.label | default: item.path %}
+          {% elsif item.file %}
+            {% assign href = '/assets/html/' | append: item.file %}
+            {% assign text = item.label | default: item.file %}
+          {% else %}
+            {% assign href = '/assets/html/' | append: item %}
+            {% assign text = item %}
+          {% endif %}
+          <p class="note-insert-link">🔗 <a href="{{ href | relative_url }}">{{ text }}</a></p>
         {% endfor %}
       </div>
     </section>
