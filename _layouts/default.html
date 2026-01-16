@@ -29,6 +29,7 @@
         <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
       </div>
       <nav class="site-nav">
+        <!-- debug: url={{ page.url }} path={{ page.path }} collection={{ page.collection }} -->
         {% assign is_notes_index = (page.path == 'notes/index.md') %}
         {% assign is_note = (page.collection == 'notes') %}
 
