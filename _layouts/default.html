@@ -28,7 +28,7 @@
       <div class="site-title">
         <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
       </div>
-      {% assign is_notes = (page.collection == 'notes') or (page.url == '/notes/') %}
+      {% assign is_notes = (page.collection == 'notes') or (page.url == '/notes/') or (page.url == '/notes') or (page.url contains '/notes/') %}
       <nav class="site-nav">
         <a href="{{ '/notes/' | relative_url }}"{% if is_notes %} class="is-active" aria-current="page" aria-disabled="true" tabindex="-1"{% endif %}>Notes</a>
       </nav>
