@@ -277,7 +277,7 @@ figure.diagram figcaption{
   color: var(--text);
   /* font-weight: 600; */
   background: var(--panel-2);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 2px 10px;
   text-decoration: none;
