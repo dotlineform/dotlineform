@@ -247,14 +247,21 @@ figure.diagram figcaption{
 .site-nav .nav-item:first-child{ margin-left: 0; } /* optional, helps centering */
 
 /* Inactive link styling */
-.site-nav a.nav-item:link{ color: var(--link); text-decoration: none; }
-.site-nav a.nav-item:visited{ color: var(--link-visited); text-decoration: none; }
-.site-nav a.nav-item:hover{ color: var(--link-hover); text-decoration: underline; text-underline-offset: 2px; }
+..site-nav a.nav-item:link,
+.site-nav a.nav-item:visited{
+  color: var(--text);
+  text-decoration: none;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.site-nav a.nav-item:hover{
+  background: var(--panel);
+}
 .site-nav a.nav-item:focus-visible{
   outline: 2px solid var(--border-strong);
   outline-offset: 2px;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  background: var(--panel);
+  border-radius: 999px;
 }
 
 /* Active state: selected pill for the <span> only */
