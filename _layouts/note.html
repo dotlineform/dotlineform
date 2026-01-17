@@ -24,10 +24,10 @@ layout: default
             {% assign href = item.path %}
             {% assign text = item.label | default: item.path %}
           {% elsif item.file %}
-            {% assign href = '/assets/html/' | append: item.file %}
+            {% assign href = '/assets/notes/html/' | append: item.file %}
             {% assign text = item.label | default: item.file %}
           {% else %}
-            {% assign href = '/assets/html/' | append: item %}
+            {% assign href = '/assets/notes/html/' | append: item %}
             {% assign text = item %}
           {% endif %}
           <p class="note-insert-link">🔗 <a href="{{ href | relative_url }}">{{ text }}</a></p>
