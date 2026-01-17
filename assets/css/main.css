@@ -255,19 +255,19 @@ figure.diagram figcaption{
   border-radius: 999px;
 }
 .site-nav a.nav-item:hover{
-  background: var(--panel);
+  background: var(--panel-2);
 }
 .site-nav a.nav-item:focus-visible{
   outline: 2px solid var(--border-strong);
   outline-offset: 2px;
-  background: var(--panel);
+  background: var(--panel-2);
   border-radius: 999px;
 }
 
 /* Active state: selected pill for the <span> only */
 .site-nav span.nav-item.is-active{
   color: var(--text);
-  font-weight: 700;
+  font-weight: 600;
   background: var(--panel-2);
   border: 1px solid var(--border);
   border-radius: 999px;
