@@ -2,7 +2,7 @@
 title: 13 moments in October
 date: 2024-10-23
 images:
-  - file: 13-moments-in-october.jpg
+  - file: 13-moments-in-october.webp
     alt: 13 moments in October
 ---
 
