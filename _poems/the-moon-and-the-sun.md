@@ -3,8 +3,6 @@ title: the moon and the sun
 date: 2024-10-24
 ---
 <pre class="poem-text">
-the moon and the sun
-
 what i was trying to say
  
 was about doubt
