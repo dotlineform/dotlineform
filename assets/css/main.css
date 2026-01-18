@@ -353,7 +353,7 @@ figure.diagram figcaption{
   display: grid;
   grid-template-columns: 140px 1fr;
   align-items: baseline;
-  column-gap: 14px;
+  column-gap: 10px;  /* tweak: 8–14px */
   padding: 8px 0;
 }
 
@@ -361,7 +361,8 @@ figure.diagram figcaption{
   font-size: 12px;
   color: var(--muted);
   white-space: nowrap;
-  text-align: left;
+  text-align: right;     /* right-align text inside the prefix */
+  justify-self: end;     /* align the prefix element to the right edge */
 }
 
 .home-link:link,
