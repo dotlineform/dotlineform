@@ -16,25 +16,30 @@ layout: default
 {% if page.images and page.images.size > 0 %}
   {% assign hero = page.images[0] %}
   {% assign hero_file = hero.file | default: '' %}
+  {% assign hero_filename = hero_file | split: '/' | last %}
 
   {% if hero_file contains '/' %}
     {% assign hero_src = hero_file %}
+    {% assign emit_srcset = false %}
   {% else %}
     {% assign hero_src = '/assets/home/img/' | append: hero_file %}
+    {% assign emit_srcset = true %}
   {% endif %}
+
+  {% assign hero_base = hero_filename | replace: '.webp', '' %}
 
   <figure class="home-hero">
     <img
-        src="{{ hero_src | relative_url }}"
-        srcset="
-            {{ '/assets/home/img/' | append: hero_base | append: '-1280.webp' | relative_url }} 1280w,
-            {{ '/assets/home/img/' | append: hero_base | append: '-2560.webp' | relative_url }} 2560w,
-            {{ '/assets/home/img/' | append: hero_base | append: '-3840.webp' | relative_url }} 3840w
-        "
-        sizes="100vw"
-        alt="{{ hero.alt | default: page.title }}"
-        loading="lazy"
-        decoding="async"
+      src="{{ hero_src | relative_url }}"
+      {% if emit_srcset and hero_filename contains '.webp' %}
+      srcset="{{ '/assets/home/img/' | append: hero_base | append: '-1280.webp' | relative_url }} 1280w,
+              {{ '/assets/home/img/' | append: hero_base | append: '-2560.webp' | relative_url }} 2560w,
+              {{ '/assets/home/img/' | append: hero_base | append: '-3840.webp' | relative_url }} 3840w"
+      sizes="100vw"
+      {% endif %}
+      alt="{{ hero.alt | default: page.title }}"
+      loading="lazy"
+      decoding="async"
     >
     {% if hero.caption %}
       <figcaption class="home-hero-caption">{{ hero.caption }}</figcaption>
