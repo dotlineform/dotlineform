@@ -8,15 +8,15 @@ images:
 
 doll was created many years before she came into my care
 but we don’t know why or by whom
-
+  
 she rested for many years
 amongst glass vessels
 a bird wing on a shelf above
 and stones on a shelf below
-
+  
 perhaps some of this is true
 we would like to believe so
-
+  
 doll is now no more (nor less)
 than photographs which document her last glancing acts
 and her destruction, along with the glass vessels she had unblinkingly watched over for so long
