@@ -55,7 +55,7 @@ layout: default
       {% assign prefix = item.prefix | default: '' %}
 
       <div class="home-link-item">
-        <span class="home-link-prefix">{% if prefix != '' %}{{ prefix }}:{% endif %}</span>
+        <span class="home-link-prefix">{% if prefix != '' %}{{ prefix }}{% endif %}</span>
 
         {% if url == '' %}
           <span class="home-link-text">{{ label }}</span>
