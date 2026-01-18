@@ -5,7 +5,7 @@ images:
   - file: 13-moments-in-october.webp
     alt: 13 moments in October
 ---
-
+<pre class="poem-text">
 we should be sleeping
 allow the winter to heal
 but instead we see everything falling apart in clear sight
@@ -15,3 +15,4 @@ when everything on the outside is turning cold
 shivers
  
 always fighting doubt until the light goes out
+</pre>
