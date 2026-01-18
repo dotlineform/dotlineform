@@ -12,8 +12,17 @@ permalink: /poems/
 {% for poem in sorted_poems %}
 {% if poem.published == false %}{% continue %}{% endif %}
 <div class="poem-index-item">
-  <span class="poem-index-date">{{ poem.date | date: "%-d %b %Y" }}</span>
-  <a class="poem-index-link" href="{{ poem.url | relative_url }}">{{ poem.title | default: poem.slug }}</a>
+  <span class="poem-index-date">
+    {% if poem.date_display %}
+      {{ poem.date_display }}
+    {% else %}
+      {{ poem.date | date: "%-d %b %Y" }}
+    {% endif %}
+  </span>
+
+  <a class="poem-index-link" href="{{ poem.url | relative_url }}">
+    {{ poem.title | default: poem.slug }}
+  </a>
 </div>
 {% endfor %}
 </div>
