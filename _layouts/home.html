@@ -28,7 +28,7 @@ layout: default
 
   {% assign hero_base = hero_filename | replace: '.webp', '' %}
 
-  <figure class="home-hero">
+  <figure class="home-hero{% if home_body == '' %} home-hero--flush{% endif %}">
     <img
       src="{{ hero_src | relative_url }}"
       {% if emit_srcset and hero_filename contains '.webp' %}

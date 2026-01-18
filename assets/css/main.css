@@ -331,6 +331,11 @@ figure.diagram figcaption{
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
 }
+
+.home-hero--flush{
+  margin-top: calc(-1 * var(--space-6));
+}
+
 .home-hero img{
   display: block;
   width: 100%;
