@@ -22,5 +22,5 @@ it exists freely
 it spreads in the air
 it is everywhere.
 
-<em>Gena, May 2018</em>>
+<em>Gena, May 2018</em>
 </pre>
