@@ -58,11 +58,20 @@ layout: default
         <span class="home-link-prefix">{% if prefix != '' %}{{ prefix }}{% endif %}</span>
 
         {% if url == '' %}
-          <span class="home-link-text">{{ label }}</span>
+            <span class="home-link-text">{{ label }}</span>
         {% elsif url contains '://' %}
-          <a class="home-link" href="{{ url }}" rel="noopener noreferrer">{{ label }}</a>
+            {% comment %}
+            external links open in new tab with noopener noreferrer
+            to avoid potential security issues with window.opener
+            {% endcomment %}
+            <a class="home-link"
+                href="{{ url }}"
+                target="_blank"
+                rel="noopener noreferrer">
+                {{ label }}
+            </a>
         {% else %}
-          <a class="home-link" href="{{ url | relative_url }}">{{ label }}</a>
+            <a class="home-link" href="{{ url | relative_url }}">{{ label }}</a>
         {% endif %}
       </div>
     {% endfor %}
