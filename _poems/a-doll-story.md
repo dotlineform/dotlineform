@@ -5,7 +5,7 @@ images:
   - file: doll-glass-23.webp
     alt: a doll story
 ---
-  
+<pre class="poem-text">
 doll was created many years before she came into my care
 but we don’t know why or by whom
 
@@ -34,3 +34,4 @@ nor happiness, love, peace(she is an inanimate doll)
 if a hammer hadn’t broken her,
 eventually she would have crumbled into dust,
 perhaps hundreds or thousands of years from now
+</pre>
