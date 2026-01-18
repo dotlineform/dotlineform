@@ -29,31 +29,26 @@
         <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
       </div>
       <nav class="site-nav">
-
-        <!-- debug flags:
-        notes_index={% if page.path == 'notes/index.md' %}true{% else %}false{% endif %}
-        is_note={% if page.collection == 'notes' %}true{% else %}false{% endif %}
-        -->
         <!-- Notes nav item -->
         {% if page.path == 'notes/index.md' %}
-          <span class="nav-item is-active" aria-current="page">Notes</span>
+          <span class="nav-item is-active" aria-current="page">notes</span>
 
         {% elsif page.collection == 'notes' %}
-          <a class="nav-item is-active" href="{{ '/notes/' | relative_url }}" aria-current="page">Notes</a>
+          <a class="nav-item is-active" href="{{ '/notes/' | relative_url }}" aria-current="page">notes</a>
 
         {% else %}
-          <a class="nav-item" href="{{ '/notes/' | relative_url }}">Notes</a>
+          <a class="nav-item" href="{{ '/notes/' | relative_url }}">notes</a>
         {% endif %}
         
         <!-- Poems nav item -->
         {% if page.path == 'poems/index.md' %}
-          <span class="nav-item is-active" aria-current="page">Poems</span>
+          <span class="nav-item is-active" aria-current="page">poems</span>
 
         {% elsif page.collection == 'poems' %}
-          <a class="nav-item is-active" href="{{ '/poems/' | relative_url }}" aria-current="page">Poems</a>
+          <a class="nav-item is-active" href="{{ '/poems/' | relative_url }}" aria-current="page">poems</a>
 
         {% else %}
-          <a class="nav-item" href="{{ '/poems/' | relative_url }}">Poems</a>
+          <a class="nav-item" href="{{ '/poems/' | relative_url }}">poems</a>
         {% endif %}
       </nav>
       <div class="site-header-spacer" aria-hidden="true"></div>
@@ -67,7 +62,7 @@
   <footer class="site-footer">
     <div class="container">
       <span class="muted">© {{ site.time | date: "%Y" }} {{ site.title }}</span>
-      <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">Theme: auto</button>
+      <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">theme: auto</button>
     </div>
   </footer>
 
@@ -86,7 +81,7 @@
           if (t === 'auto') localStorage.removeItem('theme');
           else localStorage.setItem('theme', t);
         } catch (e) {}
-        btn.textContent = 'Theme: ' + t;
+        btn.textContent = 'theme: ' + t;
       }
 
       function nextTheme(t) {
