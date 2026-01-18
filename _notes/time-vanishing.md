@@ -1,5 +1,5 @@
 ---
-title: Time vanishing  
+title: time vanishing  
 date: 2025-10-06  
 summary: Perspectives on time.  
 tags: [memory, time, methods]  

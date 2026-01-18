@@ -1,5 +1,5 @@
 ---
-title: Parallel processing  
+title: parallel processing  
 date: 2026-01-01  
 summary: The internal dynamics and reversibility of their states are radically different.  
 tags: [consciousness, memory]  

@@ -1,5 +1,5 @@
 ---
-title: Incompleteness Theorems  
+title: incompleteness theorems  
 date: 2025-10-22  
 summary: Any sufficiently powerful formal system is inherently incomplete.  
 tags: [mathematics, memory]  

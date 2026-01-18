@@ -1,5 +1,5 @@
 ---  
-title: Sleep vs anaesthesia  
+title: sleep vs anaesthesia  
 date: 2025-10-23  
 summary: The internal dynamics and reversibility of their states are radically different.  
 tags: [consciousness, memory]  
