@@ -29,7 +29,8 @@ doll lives and dies in a constant unbreakable cycle
 her alchemy has no beginning nor ending
 she does not know when the end will come
 she does not feel pain, grief, anxiety
-nor happiness, love, peace(she is an inanimate doll)  
+nor happiness, love, peace
+(she is an inanimate doll)  
   
 if a hammer hadn’t broken her,
 eventually she would have crumbled into dust,
