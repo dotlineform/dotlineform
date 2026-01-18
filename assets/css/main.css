@@ -322,7 +322,76 @@ figure.diagram figcaption{
   font-size: 12px;
   line-height: 1.2;
 }
+
 .site-footer .muted{ font-size: 12px; line-height: 1.2; }
+
+/* Home page */
+.home-hero{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+.home-hero img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.home-hero-caption{
+  max-width: var(--container);
+  margin: 8px auto 0;
+  padding: 0 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Home links styled like Notes index links */
+.home-links{
+  margin-top: var(--space-5);
+}
+
+.home-link-item{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: baseline;
+  column-gap: 14px;
+  padding: 8px 0;
+}
+
+.home-link-prefix{
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.home-link:link,
+.home-link:active,
+.home-link:focus{
+  text-decoration: none !important;
+  color: var(--link);
+  font-weight: 600;
+}
+.home-link:visited{
+  text-decoration: none !important;
+  color: var(--link-visited);
+  font-weight: 600;
+}
+
+.home-link:hover{
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.home-link:focus-visible{
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
+}
+
+.home-link-text{ 
+  font-weight: 600; 
+  color: var(--text); 
+}
 
 /* Notes index list (no bullets, no underline) */
 .note-index{ margin-top: var(--space-3); }
@@ -359,6 +428,43 @@ figure.diagram figcaption{
   outline-offset: 2px;
 }
 .note-index-date{ font-size: 12px; color: var(--muted); white-space: nowrap; text-align: left; }
+
+/* Poems index list (separate from notes for future styling differences) */
+.poem-index{ margin-top: var(--space-3); }
+.poem-index-item{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: baseline;
+  column-gap: 14px;
+  padding: 8px 0;
+  /* border-bottom: 1px solid var(--border); */
+}
+/* .poem-index-item:last-child{
+  border-bottom: 0;
+} */
+
+.poem-index-link:link,
+.poem-index-link:active,
+.poem-index-link:focus{
+  text-decoration: none !important;
+  color: var(--link);
+  font-weight: 600;
+}
+.poem-index-link:visited{
+  text-decoration: none !important;
+  color: var(--link-visited);
+  font-weight: 600;
+}
+.poem-index-link:hover{
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.poem-index-link:focus-visible{
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
+}
+.poem-index-date{ font-size: 12px; color: var(--muted); white-space: nowrap; text-align: left; }
 
 /* poem layout specific styles */
 .poem-body{
@@ -403,4 +509,10 @@ pre.poem-text{
 @media (max-width: 640px){
   .note-index-item{ grid-template-columns: 1fr; }
   .note-index-date{ text-align: left; }
+
+  .poem-index-item{ grid-template-columns: 1fr; }
+  .poem-index-date{ text-align: left; }
+
+  .home-link-item{ grid-template-columns: 1fr; }
+  .home-link-prefix{ text-align: left; }
 }

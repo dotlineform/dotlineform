@@ -1,0 +1,59 @@
+---
+layout: default
+---
+
+<header class="home-header visually-hidden">
+  <h1>{{ page.title }}</h1>
+</header>
+
+{% capture home_body %}{{ content | strip }}{% endcapture %}
+{% if home_body != '' %}
+  <div class="home-body">
+    {{ content }}
+  </div>
+{% endif %}
+
+{% if page.images and page.images.size > 0 %}
+  {% assign hero = page.images[0] %}
+  {% assign hero_file = hero.file | default: '' %}
+
+  {% if hero_file contains '/' %}
+    {% assign hero_src = hero_file %}
+  {% else %}
+    {% assign hero_src = '/assets/home/img/' | append: hero_file %}
+  {% endif %}
+
+  <figure class="home-hero">
+    <img
+      src="{{ hero_src | relative_url }}"
+      alt="{{ hero.alt | default: page.title }}"
+      loading="lazy"
+      decoding="async"
+    >
+    {% if hero.caption %}
+      <figcaption class="home-hero-caption">{{ hero.caption }}</figcaption>
+    {% endif %}
+  </figure>
+{% endif %}
+
+{% if page.links %}
+  <nav class="home-links" aria-label="Site links">
+    {% for item in page.links %}
+      {% assign label = item.label | default: item.url %}
+      {% assign url = item.url | default: '' %}
+      {% assign prefix = item.prefix | default: '' %}
+
+      <div class="home-link-item">
+        <span class="home-link-prefix">{% if prefix != '' %}{{ prefix }}:{% endif %}</span>
+
+        {% if url == '' %}
+          <span class="home-link-text">{{ label }}</span>
+        {% elsif url contains '://' %}
+          <a class="home-link" href="{{ url }}" rel="noopener noreferrer">{{ label }}</a>
+        {% else %}
+          <a class="home-link" href="{{ url | relative_url }}">{{ label }}</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </nav>
+{% endif %}
