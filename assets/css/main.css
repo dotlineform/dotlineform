@@ -358,6 +358,13 @@ figure.diagram figcaption{
   font-weight: 600; 
   color: var(--text); 
 }
+.home-link-prefix{
+  font-size: 0.95rem; /* original smaller 12px ≈ 0.75rem (assuming the default root is 16px) */
+  color: var(--muted);
+  white-space: nowrap;
+  text-align: right;     /* right-align text inside the prefix */
+  justify-self: end;     /* align the prefix element to the right edge */
+}
 
 .home-link-item{
   display: grid;
@@ -365,14 +372,6 @@ figure.diagram figcaption{
   align-items: baseline;
   column-gap: 10px;  /* tweak: 8–14px */
   padding: 8px 0;
-}
-
-.home-link-prefix{
-  font-size: 0.75rem; /* 12px ≈ 0.75rem (assuming the default root is 16px) */
-  color: var(--muted);
-  white-space: nowrap;
-  text-align: right;     /* right-align text inside the prefix */
-  justify-self: end;     /* align the prefix element to the right edge */
 }
 
 .home-link:link,
