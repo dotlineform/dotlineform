@@ -5,7 +5,6 @@ permalink: /
 images:
   - file: forest-4.webp
     alt: forest [4]
-    caption: forest [4]
 links:
   - prefix: photography
     label: Behance

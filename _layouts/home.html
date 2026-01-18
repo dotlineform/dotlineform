@@ -25,10 +25,16 @@ layout: default
 
   <figure class="home-hero">
     <img
-      src="{{ hero_src | relative_url }}"
-      alt="{{ hero.alt | default: page.title }}"
-      loading="lazy"
-      decoding="async"
+        src="{{ hero_src | relative_url }}"
+        srcset="
+            {{ '/assets/home/img/' | append: hero_base | append: '-1280.webp' | relative_url }} 1280w,
+            {{ '/assets/home/img/' | append: hero_base | append: '-2560.webp' | relative_url }} 2560w,
+            {{ '/assets/home/img/' | append: hero_base | append: '-3840.webp' | relative_url }} 3840w
+        "
+        sizes="100vw"
+        alt="{{ hero.alt | default: page.title }}"
+        loading="lazy"
+        decoding="async"
     >
     {% if hero.caption %}
       <figcaption class="home-hero-caption">{{ hero.caption }}</figcaption>
