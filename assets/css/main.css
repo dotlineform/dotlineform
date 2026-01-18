@@ -368,7 +368,7 @@ figure.diagram figcaption{
 }
 
 .home-link-prefix{
-  font-size: 12px;
+  font-size: 0.75rem; /* 12px ≈ 0.75rem (assuming the default root is 16px) */
   color: var(--muted);
   white-space: nowrap;
   text-align: right;     /* right-align text inside the prefix */
