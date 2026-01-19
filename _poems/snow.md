@@ -1,6 +1,7 @@
 ---
 title: snow
 date: 2018-1-1
+date_display: 2018-2020
 images:
   - file: snow.webp
     alt: snow
