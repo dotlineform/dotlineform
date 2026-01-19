@@ -496,6 +496,11 @@ figure.diagram figcaption{
 .poem-body p + p{
   margin-top: 1em; /* tune: 0.75em–1.25em */
 }
+/* Add an explicit margin for poem figures */
+.poem-body figure{ margin: 0; }               /* reset defaults */
+.poem-body figure.poem-hero{
+  margin: var(--space-4) auto;               /* controlled spacing */
+}
 
 /* bulletproof poem block, when wrapping markdown poem in <pre class="poem-text">...</pre> */
 pre.poem-text{

@@ -14,16 +14,15 @@ sadness permeates this world, infuses it like a fog. philosophy abstracts it, tu
 like memories, bindweed, sadness has presence but no place, no fixed abode. it seeps through our past and future, sleeps in our pores, rises up deafeningly from the depths and then returns silently like a liquid flowing easily over impossibly jagged surfaces. perhaps then we can use it like all natural things that are able to live in inhospitable places, for medicinal purposes, to heal. sadness changes things, it changes everything, and so therefore it has great strength. sadness and hope, wishes, they are real.
  
 single moments are always cruel because we cannot perceive them for what they really are, they just stab us and instantly leave us with confused fragments. but our love for lives that are no longer with us, in a cruel present that we grasp to feel but never find peace in, extends into our past and future, and so is outside of the passing of time, a peaceful eternal.
-
-{% if page.images and page.images.size > 1 %}
-  {% assign img2 = page.images[1] %}
-  <figure class="poem-hero">
-    <img src="{{ '/assets/poems/img/' | append: img2.file | relative_url }}"
-         alt="{{ img2.alt | default: page.title }}"
-         loading="lazy" decoding="async">
-    {% if img2.caption %}
-      <figcaption>{{ img2.caption }}</figcaption>
-    {% endif %}
-  </figure>
-{% endif %}
+{%- if page.images and page.images.size > 1 -%}
+{%- assign img2 = page.images[1] -%}
+<figure class="poem-hero">
+  <img src="{{ '/assets/poems/img/' | append: img2.file | relative_url }}"
+       alt="{{ img2.alt | default: page.title }}"
+       loading="lazy" decoding="async">
+  {%- if img2.caption -%}
+    <figcaption>{{ img2.caption }}</figcaption>
+  {%- endif -%}
+</figure>
+{%- endif -%}
 </pre>
