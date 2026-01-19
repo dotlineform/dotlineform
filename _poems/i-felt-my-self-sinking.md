@@ -3,7 +3,7 @@ title: I felt my self sinking, but not alone, and in peace
 date: 2015-1-1
 date_display: c. 2015
 images:
-  - file: i-felt-myself-sinking.webp
+  - file: i-felt-my-self-sinking.webp
     alt: I felt my self sinking, but not alone, and in peace
 ---
 <pre class="poem-text">
