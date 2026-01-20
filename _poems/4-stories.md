@@ -2,6 +2,9 @@
 title: 4 stories
 date: 2020-1-1
 date_display: c. 2020?
+images:
+  - file: 4-stories.webp
+    alt: 4 stories
 ---
 <pre class="poem-text">
 There is a form
