@@ -392,12 +392,12 @@ figure.diagram figcaption{
 .home-link:focus{
   text-decoration: none !important;
   color: var(--link);
-  font-weight: 600;
+  font-weight: 500;
 }
 .home-link:visited{
   text-decoration: none !important;
   color: var(--link-visited);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .home-link:hover{
@@ -429,12 +429,12 @@ figure.diagram figcaption{
 .note-index-link:focus{
   text-decoration: none !important;
   color: var(--link);
-  font-weight: 600;
+  font-weight: 500;
 }
 .note-index-link:visited{
   text-decoration: none !important;
   color: var(--link-visited);
-  font-weight: 600;
+  font-weight: 500;
 }
 .note-index-link:hover{
   color: var(--link-hover);
