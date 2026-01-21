@@ -1,7 +1,7 @@
 # Site identity
 title: dotlineform
-url: "https://dotlineform.github.io"
-baseurl: "/dotlineform"  # project site base path
+url: "https://www.dotlineform.com"
+baseurl: "/"  # project site base path - empty on a custom domain
 
 collections:
   notes:
