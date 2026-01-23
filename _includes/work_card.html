@@ -1,11 +1,17 @@
 {% assign w = include.work %}
-{% assign base = site.media_base | append: "/works/" %}
+
+{% assign media_base = site.media_base | default: "" %}
+{% assign media_prefix = site.media_prefix | default: "/assets/works" %}
+{% assign base = media_base | append: media_prefix | append: "/" %}
+
 {% assign thumb = base | append: w.work_id | append: "-thumb-480.webp" %}
+{% assign thumb_out = thumb %}
+{% unless base contains '://' %}{% assign thumb_out = thumb | relative_url %}{% endunless %}
 
 <a class="workCard" href="{{ w.url }}">
   <img
     class="workCard__img"
-    src="{{ thumb }}"
+    src="{{ thumb_out }}"
     alt="{{ w.title | escape }}"
     loading="lazy"
     decoding="async">

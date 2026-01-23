@@ -1,23 +1,25 @@
-<!-- Layout renders:
-	•	primary image (derived from work_id convention) and clickable open-large
-	•	metadata
-	•	optional embedded images gallery-->
 ---
 layout: default
 ---
-{% assign base = site.media_base | append: "/works/" %}
+{% assign media_base = site.media_base | default: "" %}
+{% assign media_prefix = site.media_prefix | default: "/assets/works" %}
+{% assign base = media_base | append: media_prefix | append: "/" %}
 {% assign wid = page.work_id | default: page.slug %}
-{% assign display_url = base | append: wid | append: "-primary-1600.webp" %}
-{% assign full_url = base | append: wid | append: "-primary-2400.webp" %}
 
 <h1>{{ page.title }}</h1>
 
 {% if page.year %}<div>{{ page.year }}</div>{% endif %}
 {% if page.medium %}<div>{{ page.medium }}</div>{% endif %}
 
-<a href="{{ full_url }}" target="_blank" rel="noopener">
+<a href="{{ base }}{{ wid }}-primary-2400.webp" target="_blank" rel="noopener">
   <img
-    src="{{ display_url }}"
+    src="{{ base }}{{ wid }}-primary-1600.webp"
+    srcset="
+      {{ base }}{{ wid }}-primary-800.webp 800w,
+      {{ base }}{{ wid }}-primary-1200.webp 1200w,
+      {{ base }}{{ wid }}-primary-1600.webp 1600w,
+      {{ base }}{{ wid }}-primary-2400.webp 2400w"
+    sizes="(max-width: 800px) 100vw, 72ch"
     alt="{{ page.title | escape }}"
     loading="lazy"
     decoding="async"
@@ -56,4 +58,3 @@ layout: default
 
 <p><a href="/catalogue/works/">Back to works index</a></p>
 <p><a href="/catalogue/">Back to catalogue</a></p>
-    
