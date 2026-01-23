@@ -4,7 +4,7 @@
 # chmod +x scripts/make_work_images.sh
 
 # call the script with two optional arguments:
-# ./scripts/make_work_images.sh path/to/source_jpgs assets/works
+# ./scripts/make_work_images.sh path/to/source_jpgs assets/works/img
 
 #!/usr/bin/env bash
 set -euo pipefail
