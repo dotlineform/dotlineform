@@ -2,6 +2,7 @@
 title: dotlineform
 url: "https://www.dotlineform.com"
 baseurl: "/"  # project site base path - needs to be empty on a custom domain
+media_base: https://media.dotlineform.com
 
 collections:
   notes:
@@ -10,6 +11,12 @@ collections:
   poems:
     output: true
     permalink: /poems/:name/
+  works:
+    output: true
+    permalink: /catalogue/works/:name/
+  catalogue_notes:
+    output: true
+    permalink: /catalogue/notes/:name/
 
 defaults:
   # Apply note layout automatically to the notes collection
@@ -23,7 +30,18 @@ defaults:
       path: ""
       type: poems
     values:
-      layout: poem    
+      layout: poem
+      defaults:
+  - scope:
+      path: ""
+      type: works
+    values:
+      layout: work
+  - scope:
+      path: ""
+      type: catalogue_notes
+    values:
+      layout: catalogue_note    
   # Apply default layout automatically to other pages
   - scope:
       path: ""
