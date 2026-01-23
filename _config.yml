@@ -8,6 +8,9 @@ media_prefix: /assets/works
 # media_base: https://media.dotlineform.com
 # media_prefix: /works
 
+exclude:
+  - scripts
+
 collections:
   notes:
     output: true
