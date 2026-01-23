@@ -1,6 +1,9 @@
 # Minimal usage
 # From repo root:
+# run this first once to make the script executable:
 # chmod +x scripts/make_work_images.sh
+
+# call the script with two optional arguments:
 # ./scripts/make_work_images.sh path/to/source_jpgs assets/works
 
 #!/usr/bin/env bash
@@ -9,8 +12,8 @@ set -euo pipefail
 # ---------
 # CONFIG
 # ---------
-INPUT_DIR="${1:-.}"                 # where {work_id}.jpg lives
-OUTPUT_DIR="${2:-assets/works}"     # where the .webp derivatives are written
+INPUT_DIR="${1:-.}"                 # where {work_id}.jpg lives - default = pwd
+OUTPUT_DIR="${2:-assets/works/img}"     # where the .webp derivatives are written - default = assets/works/img
 
 # Quality settings (tune if needed)
 WEBP_PRESET="photo"

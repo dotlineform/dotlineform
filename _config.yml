@@ -3,10 +3,12 @@ title: dotlineform
 url: "https://www.dotlineform.com"
 baseurl: "/"  # project site base path - needs to be empty on a custom domain
 media_base: ""
-media_prefix: /assets/works
+media_prefix: /assets/works/img
+files_prefix: /assets/works/files
 # when using a separate media server, uncomment and set the following:
 # media_base: https://media.dotlineform.com
-# media_prefix: /works
+# media_prefix: /works/img
+# files_prefix: /assets/works/files
 
 exclude:
   - scripts

@@ -56,5 +56,15 @@ layout: default
   </ul>
 {% endif %}
 
+<!-- for other file types (PDFs, text files, etc.) -->
+{% if page.attachments %}
+  <h2>Files</h2>
+  <ul>
+    {% for a in page.attachments %}
+      <li><a href="{{ a.file | relative_url }}">{{ a.label }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 <p><a href="/catalogue/works/">Back to works index</a></p>
 <p><a href="/catalogue/">Back to catalogue</a></p>
