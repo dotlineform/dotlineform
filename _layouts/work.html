@@ -1,70 +1,193 @@
 ---
 layout: default
 ---
-{% assign media_base = site.media_base | default: "" %}
-{% assign media_prefix = site.media_prefix | default: "/assets/works" %}
-{% assign base = media_base | append: media_prefix | append: "/" %}
+
 {% assign wid = page.work_id | default: page.slug %}
 
-<h1>{{ page.title }}</h1>
+{%- comment -%}
+Media base: local by default, remote later via _config.yml
+Local (repo):  media_base: "" ; media_prefix: /assets/works/img
+Remote:        media_base: https://media.dotlineform.com ; media_prefix: /works/img
+{%- endcomment -%}
+{% assign media_base = site.media_base | default: "" %}
+{% assign media_prefix = site.media_prefix | default: "/assets/works/img" %}
+{% assign base = media_base | append: media_prefix | append: "/" %}
 
-{% if page.year %}<div>{{ page.year }}</div>{% endif %}
-{% if page.medium %}<div>{{ page.medium }}</div>{% endif %}
+{%- assign src800  = base | append: wid | append: "-primary-800.webp" -%}
+{%- assign src1200 = base | append: wid | append: "-primary-1200.webp" -%}
+{%- assign src1600 = base | append: wid | append: "-primary-1600.webp" -%}
+{%- assign src2400 = base | append: wid | append: "-primary-2400.webp" -%}
 
-<a href="{{ base }}{{ wid }}-primary-2400.webp" target="_blank" rel="noopener">
-  <img
-    src="{{ base }}{{ wid }}-primary-1600.webp"
-    srcset="
-      {{ base }}{{ wid }}-primary-800.webp 800w,
-      {{ base }}{{ wid }}-primary-1200.webp 1200w,
-      {{ base }}{{ wid }}-primary-1600.webp 1600w,
-      {{ base }}{{ wid }}-primary-2400.webp 2400w"
-    sizes="(max-width: 800px) 100vw, 72ch"
-    alt="{{ page.title | escape }}"
-    loading="lazy"
-    decoding="async"
-    style="width:100%;height:auto;display:block;">
-</a>
+{%- unless base contains '://' -%}
+  {%- assign src800  = src800  | relative_url -%}
+  {%- assign src1200 = src1200 | relative_url -%}
+  {%- assign src1600 = src1600 | relative_url -%}
+  {%- assign src2400 = src2400 | relative_url -%}
+{%- endunless -%}
 
-{% if page.tags %}
-  <div>
-    {% for t in page.tags %}
-      <span>{{ t }}</span>{% unless forloop.last %}, {% endunless %}
-    {% endfor %}
-  </div>
-{% endif %}
+<article class="work">
 
-{% if page.description_short %}
-  <p>{{ page.description_short }}</p>
-{% endif %}
+  <header class="work__header">
+    <h1 class="work__title">{{ page.title }}</h1>
 
-<!-- supplementary images gallery -->
-{% if page.images %}
-  <h2>Documentation</h2>
-  <ul>
-    {% for img in page.images %}
-      <li>
-        <img
-          src="{{ base }}{{ img.file }}"
-          alt="{{ img.caption | default: page.title | escape }}"
-          loading="lazy"
-          decoding="async"
-          style="max-width:100%;height:auto;display:block;">
-        {% if img.caption %}<div>{{ img.caption }}</div>{% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-{% endif %}
+    {% if page.subtitle %}
+      <div class="work__subtitle">{{ page.subtitle }}</div>
+    {% endif %}
 
-<!-- for other file types (PDFs, text files, etc.) -->
-{% if page.attachments %}
-  <h2>Files</h2>
-  <ul>
-    {% for a in page.attachments %}
-      <li><a href="{{ a.file | relative_url }}">{{ a.label }}</a></li>
-    {% endfor %}
-  </ul>
-{% endif %}
+    <div class="work__byline">
+      {% if page.year_display %}
+        <span class="work__year">{{ page.year_display }}</span>
+      {% elsif page.year %}
+        <span class="work__year">{{ page.year }}</span>
+      {% endif %}
 
-<p><a href="/catalogue/works/">Back to works index</a></p>
-<p><a href="/catalogue/">Back to catalogue</a></p>
+      {% if page.series %}
+        <span class="work__series">{% if page.year or page.year_display %} · {% endif %}{{ page.series }}</span>
+      {% endif %}
+    </div>
+  </header>
+
+  <figure class="work__figure">
+    <a class="work__imageLink" href="{{ src2400 }}" target="_blank" rel="noopener">
+      <img
+        class="work__image"
+        src="{{ src1600 }}"
+        srcset="
+          {{ src800 }} 800w,
+          {{ src1200 }} 1200w,
+          {{ src1600 }} 1600w,
+          {{ src2400 }} 2400w"
+        sizes="(max-width: 800px) 100vw, 72ch"
+        alt="{{ page.title | escape }}"
+        loading="lazy"
+        decoding="async"
+        style="width:100%;height:auto;display:block;">
+    </a>
+  </figure>
+
+  {% if page.description %}
+    <section class="work__description">
+      {{ page.description | markdownify }}
+    </section>
+  {% endif %}
+
+  <section class="work__meta">
+    <h2 class="work__metaTitle">Details</h2>
+    <dl class="work__dl">
+
+      {% if page.work_id %}
+        <div class="work__row"><dt>ID</dt><dd>{{ page.work_id }}</dd></div>
+      {% endif %}
+
+      {% if page.medium_caption or page.medium_type %}
+        <div class="work__row">
+          <dt>Medium</dt>
+          <dd>{% if page.medium_caption %}{{ page.medium_caption }}{% else %}{{ page.medium_type }}{% endif %}</dd>
+        </div>
+      {% endif %}
+
+      {% if page.duration %}
+        <div class="work__row"><dt>Duration</dt><dd>{{ page.duration }}</dd></div>
+      {% endif %}
+
+      {% if page.orientation %}
+        <div class="work__row"><dt>Orientation</dt><dd>{{ page.orientation }}</dd></div>
+      {% endif %}
+
+      {% if page.height_cm or page.width_cm or page.depth_cm %}
+        <div class="work__row">
+          <dt>Dimensions</dt>
+          <dd>
+            {% if page.height_cm and page.width_cm %}
+              {{ page.height_cm }} × {{ page.width_cm }} cm{% if page.depth_cm %} × {{ page.depth_cm }} cm{% endif %}
+            {% elsif page.height_cm %}
+              {{ page.height_cm }} cm
+            {% elsif page.width_cm %}
+              {{ page.width_cm }} cm
+            {% endif %}
+          </dd>
+        </div>
+      {% endif %}
+
+      {% if page.tags %}
+        <div class="work__row">
+          <dt>Tags</dt>
+          <dd>
+            {% if page.tags.first %}
+              {% for t in page.tags %}
+                <span class="work__tag">{{ t }}</span>{% unless forloop.last %} {% endunless %}
+              {% endfor %}
+            {% else %}
+              {{ page.tags }}
+            {% endif %}
+          </dd>
+        </div>
+      {% endif %}
+
+      {% if page.catalogue_date %}
+        <div class="work__row"><dt>Catalogue date</dt><dd>{{ page.catalogue_date }}</dd></div>
+      {% endif %}
+
+      {% if site.show_private_work_fields == true %}
+
+        {% if page.storage_location %}
+          <div class="work__row"><dt>Storage</dt><dd>{{ page.storage_location }}</dd></div>
+        {% endif %}
+
+        {% if page.provenance %}
+          <div class="work__row"><dt>Provenance</dt><dd>{{ page.provenance | markdownify }}</dd></div>
+        {% endif %}
+
+        {% if page.checksum %}
+          <div class="work__row"><dt>Checksum</dt><dd><code>{{ page.checksum }}</code></dd></div>
+        {% endif %}
+
+        {% if page.notes_private %}
+          <div class="work__row"><dt>Private notes</dt><dd>{{ page.notes_private | markdownify }}</dd></div>
+        {% endif %}
+
+      {% endif %}
+
+    </dl>
+  </section>
+
+  <!-- supplementary images gallery -->
+  {% if page.images %}
+    <section class="work__docs">
+      <h2>Documentation</h2>
+      <ul>
+        {% for img in page.images %}
+          <li>
+            {% assign img_src = base | append: img.file %}
+            {% unless base contains '://' %}{% assign img_src = img_src | relative_url %}{% endunless %}
+            <img
+              src="{{ img_src }}"
+              alt="{{ img.caption | default: page.title | escape }}"
+              loading="lazy"
+              decoding="async"
+              style="max-width:100%;height:auto;display:block;">
+            {% if img.caption %}<div>{{ img.caption }}</div>{% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  <!-- for other file types (PDFs, text files, etc.) -->
+  {% if page.attachments %}
+    <section class="work__files">
+      <h2>Files</h2>
+      <ul>
+        {% for a in page.attachments %}
+          <li><a href="{{ a.file | relative_url }}">{{ a.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  <nav class="work__nav">
+    <a href="{{ '/catalogue/works/' | relative_url }}">Back to works index</a>
+    <a href="{{ '/catalogue/' | relative_url }}">Back to catalogue</a>
+  </nav>
+
+</article>
