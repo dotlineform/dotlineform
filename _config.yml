@@ -22,19 +22,17 @@ collections:
     permalink: /poems/:name/
   works:
     output: true
-    permalink: /catalogue/works/:name/
-  catalogue_notes:
+    permalink: /works/:name/
+  works_notes:
     output: true
-    permalink: /catalogue/notes/:name/
+    permalink: /works_notes/:name/
 
 defaults:
-  # Apply note layout automatically to the notes collection
   - scope:
       path: ""
       type: notes
     values:
       layout: note
-  # Apply poem layout automatically to the poems collection
   - scope:
       path: ""
       type: poems
@@ -47,9 +45,9 @@ defaults:
       layout: work
   - scope:
       path: ""
-      type: catalogue_notes
+      type: works_notes
     values:
-      layout: catalogue_note    
+      layout: works_note    
   # Apply default layout automatically to other pages
   - scope:
       path: ""
