@@ -1,6 +1,6 @@
 ---
 title: curve poems
-date: 2025-1-24
+date: 2026-1-24
 description_short: series of drawings iterating on dynamic curve expressions
 order: 10
 works:
