@@ -2,7 +2,7 @@
 title: curve poems
 date: 2026-1-24
 description_short: series of drawings iterating on dynamic curve expressions
-order: 10
+layout: works_note
 works:
   - "00286"
 ---
