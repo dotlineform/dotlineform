@@ -648,7 +648,9 @@ pre.poem-text{
 .workCard__sub { opacity:0.75; font-size:0.95em; }
 
 
-/* Base components (shared across sections): */
+/* Base components (shared across sections):
+Use “component-first” naming with optional section modifiers.
+This gives you shared styling with room for per-section overrides. */
 .page{
 /* generic page wrapper */
 }
