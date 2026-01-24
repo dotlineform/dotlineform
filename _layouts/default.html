@@ -30,17 +30,17 @@
       </div>
       <nav class="site-nav">
         <!-- works nav item -->
-        {% if page.path == 'works_notes/index.md' %}
+        {% if page.path == 'works-notes/index.md' %}
           <span class="nav-item is-active" aria-current="page">works</span>
 
         {% elsif page.collection == 'works' or page.collection == 'works_notes' %}
-          <a class="nav-item is-active" href="{{ '/works_notes/' | relative_url }}" aria-current="page">works</a>
+          <a class="nav-item is-active" href="{{ '/works-notes/' | relative_url }}" aria-current="page">works</a>
 
         {% elsif page.path contains 'works/' %}
-          <a class="nav-item is-active" href="{{ '/works_notes/' | relative_url }}" aria-current="page">works</a>
+          <a class="nav-item is-active" href="{{ '/works-notes/' | relative_url }}" aria-current="page">works</a>
 
         {% else %}
-          <a class="nav-item" href="{{ '/works_notes/' | relative_url }}">works</a>
+          <a class="nav-item" href="{{ '/works-notes/' | relative_url }}">works</a>
         {% endif %}
         
         <!-- poems nav item -->
