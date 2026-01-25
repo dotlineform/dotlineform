@@ -542,6 +542,16 @@ pre.moment-text{
   margin: 0 0 var(--space-4);
 }
 
+/* bulletproof theme text block, when wrapping markdown theme text in <pre class="theme-text">...</pre> */
+pre.theme-text{
+  font-family: inherit;
+  white-space: pre-wrap;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+}
+
 /* Constrain the moment title to the same measure */
 .moment-header{
   max-width: var(--moment-measure);
