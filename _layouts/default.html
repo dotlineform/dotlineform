@@ -22,47 +22,69 @@
 
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 </head>
-<body>
+<body class="{{ page.section | default: page.collection | default: 'page' }}">
   <header class="site-header">
     <div class="container">
       <div class="site-title">
         <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
       </div>
-      <nav class="site-nav">
-        <!-- works nav item -->
-        {% if page.path == 'works-notes/index.md' %}
+      <nav class="site-nav" aria-label="Primary">
+        {%- assign u = page.url | default: "" -%}
+
+        {%- assign is_works_index = false -%}
+        {%- assign is_works_active = false -%}
+        {%- if u == '/works/' -%}{%- assign is_works_index = true -%}{%- endif -%}
+        {%- if page.collection == 'works' or (u | slice: 0, 7) == '/works/' -%}{%- assign is_works_active = true -%}{%- endif -%}
+
+        {%- assign is_themes_index = false -%}
+        {%- assign is_themes_active = false -%}
+        {%- if u == '/themes/' -%}{%- assign is_themes_index = true -%}{%- endif -%}
+        {%- if page.collection == 'themes' or (u | slice: 0, 8) == '/themes/' -%}{%- assign is_themes_active = true -%}{%- endif -%}
+
+        {%- assign is_moments_index = false -%}
+        {%- assign is_moments_active = false -%}
+        {%- if u == '/moments/' -%}{%- assign is_moments_index = true -%}{%- endif -%}
+        {%- if page.collection == 'moments' or (u | slice: 0, 9) == '/moments/' -%}{%- assign is_moments_active = true -%}{%- endif -%}
+
+        {%- assign is_research_index = false -%}
+        {%- assign is_research_active = false -%}
+        {%- if u == '/research/' -%}{%- assign is_research_index = true -%}{%- endif -%}
+        {%- if page.collection == 'research' or (u | slice: 0, 10) == '/research/' -%}{%- assign is_research_active = true -%}{%- endif -%}
+
+        <!-- works -->
+        {% if is_works_index %}
           <span class="nav-item is-active" aria-current="page">works</span>
-
-        {% elsif page.collection == 'works' or page.collection == 'works_notes' %}
-          <a class="nav-item is-active" href="{{ '/works-notes/' | relative_url }}" aria-current="page">works</a>
-
-        {% elsif page.path contains 'works/' %}
-          <a class="nav-item is-active" href="{{ '/works-notes/' | relative_url }}" aria-current="page">works</a>
-
+        {% elsif is_works_active %}
+          <a class="nav-item is-active" href="{{ '/works/' | relative_url }}" aria-current="page">works</a>
         {% else %}
-          <a class="nav-item" href="{{ '/works-notes/' | relative_url }}">works</a>
-        {% endif %}
-        
-        <!-- poems nav item -->
-        {% if page.path == 'poems/index.md' %}
-          <span class="nav-item is-active" aria-current="page">poems</span>
-
-        {% elsif page.collection == 'poems' %}
-          <a class="nav-item is-active" href="{{ '/poems/' | relative_url }}" aria-current="page">poems</a>
-
-        {% else %}
-          <a class="nav-item" href="{{ '/poems/' | relative_url }}">poems</a>
+          <a class="nav-item" href="{{ '/works/' | relative_url }}">works</a>
         {% endif %}
 
-         <!-- notes nav item -->
-        {% if page.path == 'notes/index.md' %}
-          <span class="nav-item is-active" aria-current="page">notes</span>
-
-        {% elsif page.collection == 'notes' %}
-          <a class="nav-item is-active" href="{{ '/notes/' | relative_url }}" aria-current="page">notes</a>
-
+        <!-- themes -->
+        {% if is_themes_index %}
+          <span class="nav-item is-active" aria-current="page">themes</span>
+        {% elsif is_themes_active %}
+          <a class="nav-item is-active" href="{{ '/themes/' | relative_url }}" aria-current="page">themes</a>
         {% else %}
-          <a class="nav-item" href="{{ '/notes/' | relative_url }}">notes</a>
+          <a class="nav-item" href="{{ '/themes/' | relative_url }}">themes</a>
+        {% endif %}
+
+        <!-- moments -->
+        {% if is_moments_index %}
+          <span class="nav-item is-active" aria-current="page">moments</span>
+        {% elsif is_moments_active %}
+          <a class="nav-item is-active" href="{{ '/moments/' | relative_url }}" aria-current="page">moments</a>
+        {% else %}
+          <a class="nav-item" href="{{ '/moments/' | relative_url }}">moments</a>
+        {% endif %}
+
+        <!-- research -->
+        {% if is_research_index %}
+          <span class="nav-item is-active" aria-current="page">research</span>
+        {% elsif is_research_active %}
+          <a class="nav-item is-active" href="{{ '/research/' | relative_url }}" aria-current="page">research</a>
+        {% else %}
+          <a class="nav-item" href="{{ '/research/' | relative_url }}">research</a>
         {% endif %}
       </nav>
       <div class="site-header-spacer" aria-hidden="true"></div>
@@ -76,7 +98,7 @@
   <footer class="site-footer">
     <div class="container">
       <span class="muted">© {{ site.time | date: "%Y" }} {{ site.title }}</span>
-      <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">theme: auto</button>
+      <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle theme">appearance: auto</button>
     </div>
   </footer>
 
@@ -95,7 +117,7 @@
           if (t === 'auto') localStorage.removeItem('theme');
           else localStorage.setItem('theme', t);
         } catch (e) {}
-        btn.textContent = 'theme: ' + t;
+        btn.textContent = 'appearance: ' + t;
       }
 
       function nextTheme(t) {
