@@ -14,30 +14,30 @@ exclude:
   - scripts
 
 collections:
-  notes:
+  research:
     output: true
-    permalink: /notes/:name/  # clean note URLs
-  poems:
+    permalink: /research/:name/  # clean note URLs
+  moments:
     output: true
-    permalink: /poems/:name/
+    permalink: /moments/:name/
   works:
     output: true
     permalink: /works/:name/
-  works_notes:
+  themes:
     output: true
-    permalink: /works-notes/:name/
+    permalink: /themes/:name/
 
 defaults:
   - scope:
       path: ""
-      type: notes
+      type: research
     values:
-      layout: note
+      layout: research
   - scope:
       path: ""
-      type: poems
+      type: moments
     values:
-      layout: poem
+      layout: moment
   - scope:
       path: ""
       type: works
@@ -45,9 +45,9 @@ defaults:
       layout: work
   - scope:
       path: ""
-      type: works_notes
+      type: themes
     values:
-      layout: works_note    
+      layout: theme    
   # Apply default layout automatically to other pages
   - scope:
       path: ""
