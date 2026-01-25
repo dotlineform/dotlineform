@@ -3,41 +3,26 @@ title: dotlineform
 url: "https://www.dotlineform.com"
 baseurl: ""  # custom domain: leave empty
 media_base: ""
-media_prefix: /assets/works/img
-files_prefix: /assets/works/files
+media_prefix: "/assets"
 # when using a separate media server, uncomment and set the following:
 # media_base: https://media.dotlineform.com
-# media_prefix: /works/img
-# files_prefix: /assets/works/files
-
-exclude:
-  - scripts
+# media_prefix: "/assets"
 
 collections:
-  research:
-    output: true
-    permalink: /research/:name/  # clean note URLs
-  moments:
-    output: true
-    permalink: /moments/:name/
   works:
     output: true
     permalink: /works/:name/
   themes:
     output: true
     permalink: /themes/:name/
+  moments:
+    output: true
+    permalink: /moments/:name/
+  research:
+    output: true
+    permalink: /research/:name/
 
 defaults:
-  - scope:
-      path: ""
-      type: research
-    values:
-      layout: research
-  - scope:
-      path: ""
-      type: moments
-    values:
-      layout: moment
   - scope:
       path: ""
       type: works
@@ -47,9 +32,24 @@ defaults:
       path: ""
       type: themes
     values:
-      layout: theme    
+      layout: theme
+  - scope:
+      path: ""
+      type: moments
+    values:
+      layout: moment
+  - scope:
+      path: ""
+      type: research
+    values:
+      layout: research
+  
   # Apply default layout automatically to other pages
   - scope:
       path: ""
     values:
       layout: default
+
+timezone: Europe/London
+exclude:
+  - scripts
