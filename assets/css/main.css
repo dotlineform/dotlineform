@@ -736,9 +736,27 @@ Use “structure-first” naming and scope section-specific differences via the 
 /* research index wrapper */
 }
 
-/* Section-specific page components (singular, unambiguous) */
 .work{
-/* work page */
+  /* work page */
+}
+
+/* Works-only enhancements
+   If you want a more minimal aesthetic, comment out this entire block.
+   (The shared `.page__row` and `.page__tag` rules will still render cleanly.)
+*/
+.work .page__row > :first-child{
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Works tags as “pills”
+   To revert to minimal tags, comment out this rule.
+*/
+.work .page__tag{
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 13px;
 }
 .theme{
 /* theme page */
