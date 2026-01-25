@@ -701,13 +701,14 @@ Use “structure-first” naming and scope section-specific differences via the 
   padding-left: 1.5em; /* space for the icon */
 }
 .supplements__link::before{
-  content: "🔗";
   position: absolute;
   left: 0;
   top: 0.05em;   /* small vertical tweak */
   line-height: 1;
   opacity: 0.8; /* icon slightly muted */
 }
+.supplements__link--html::before{ content:"🔗"; }
+.supplements__link--pdf::before{ content:"📄"; }
 
 
 /* Generic card component (future use; keep workCard as-is for now) */
