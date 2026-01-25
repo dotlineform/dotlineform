@@ -1,13 +1,19 @@
 ---
 layout: default
 title: Moments
+section: moments
 permalink: /moments/
 ---
 
 <h1 class="visually-hidden">Moments</h1>
 
-{% assign sorted_moments = site.moments | sort: 'date' | reverse %}
-<div class="moments-index">
+<h2>Moments</h2>
+
+{% assign moments_items = site.moments %}
+
+{% if moments_items and moments_items != empty %}
+  {% assign sorted_moments = moments_items | sort: 'date' | reverse %}
+  <div class="moments-index">
 
 {% for moment in sorted_moments %}
 {% if moment.published == false %}{% continue %}{% endif %}
@@ -26,3 +32,6 @@ permalink: /moments/
 </div>
 {% endfor %}
 </div>
+{% else %}
+  <p>No moments yet.</p>
+{% endif %}
