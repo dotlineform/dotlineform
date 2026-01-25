@@ -408,7 +408,10 @@ figure.diagram figcaption{
 .work-note-index,
 .note-index,
 .poem-index{
+  max-width: var(--content-measure);
   margin-top: var(--space-3);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* row layout */
