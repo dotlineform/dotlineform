@@ -41,7 +41,7 @@ we feel their gentle ripples
 </pre>
 {%- if page.images and page.images.size > 1 -%}
 {%- assign img2 = page.images[1] -%}
-<figure class="poem-hero">
+<figure class="moment-hero">
   <img src="{{ '/assets/poems/img/' | append: img2.file | relative_url }}"
        alt="{{ img2.alt | default: page.title }}"
        loading="lazy" decoding="async">
