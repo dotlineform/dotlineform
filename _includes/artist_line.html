@@ -20,14 +20,16 @@ Precedence:
       {%- if names == "" -%}
         {%- assign names = n -%}
       {%- else -%}
-        {%- assign names = names | append: " • " | append: n -%}
+        {%- assign names = names | append: ", " | append: n -%}
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
-  {{ names }}
-{%- else -%}
-  {%- assign legacy_artist = p.artist | default: "" | strip -%}
-  {%- if legacy_artist != "" -%}
-    {{ legacy_artist }}
+  {%- if names != "" -%}
+    {{ names }}
+  {%- else -%}
+    {%- assign legacy_artist = p.artist | default: "" | strip -%}
+    {%- if legacy_artist != "" -%}
+      {{ legacy_artist }}
+    {%- endif -%}
   {%- endif -%}
 {%- endif -%}
