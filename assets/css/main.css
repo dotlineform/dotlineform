@@ -580,7 +580,7 @@ pre.poem-text{
 
 /* _includes  */
 .workCard { display:block; text-decoration:none; }
-.workCard__img { width:240px; height:auto; display:block; }
+.workCard__img { max-width:240px; width:100%; height:auto; display:block; }
 .workCard__title { font-weight:600; }
 .workCard__sub { opacity:0.75; font-size:0.95em; }
 
@@ -712,29 +712,22 @@ Use “structure-first” naming and scope section-specific differences via the 
 
 /* Section wrappers (plural, scoped): */
 .works{
-/* works section wrapper */
+  /* works section wrapper */
 }
-.works-index{
-/* works index wrapper */
-}
+
 .themes{
-/* themes section wrapper */
+  /* themes section wrapper */
 }
-.themes-index{
-/* themes index wrapper */
-}
+
 .moments{
-/* moments section wrapper */
+  /* moments section wrapper */
 }
-.moments-index{
-/* moments index wrapper */
-}
+
 .research{
-/* research section wrapper */
+  /* research section wrapper */
 }
-.research-index{
-/* research index wrapper */
-}
+
+/* Note: section index pages use the shared `.index` / `.index__*` component classes. */
 
 .work{
   /* work page */
@@ -752,11 +745,24 @@ Use “structure-first” naming and scope section-specific differences via the 
 /* Works tags as “pills”
    To revert to minimal tags, comment out this rule.
 */
+
 .work .page__tag{
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 2px 8px;
   font-size: 13px;
+}
+
+/* Works documentation images
+   To revert to minimal documentation styling, comment out this block.
+*/
+.work .supplements__item img{
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.work .supplements__item + .supplements__item{
+  margin-top: var(--space-3);
 }
 .theme{
 /* theme page */
