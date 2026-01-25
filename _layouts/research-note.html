@@ -34,7 +34,7 @@ layout: default
           {% unless out_href contains '://' %}
             {% assign out_href = out_href | relative_url %}
           {% endunless %}
-          <p class="supplements__link">🔗 <a href="{{ out_href }}">{{ text | escape }}</a></p>
+          <p class="supplements__link"><a href="{{ out_href }}">{{ text | escape }}</a></p>
         {% endfor %}
       </div>
     </section>
