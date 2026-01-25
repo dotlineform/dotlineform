@@ -3,7 +3,7 @@ title: boundary conditions
 date: 2015-1-1
 date_display: c. 2015
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 boundary condition
 in this room
 there are walls, a floor, a roof

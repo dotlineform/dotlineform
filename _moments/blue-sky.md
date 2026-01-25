@@ -6,7 +6,7 @@ images:
   - file: blue-sky.webp
     alt: blue sky
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 perhaps it is an alchemical truth
 that the sky is always blue
 but most of the time purity is hidden from us

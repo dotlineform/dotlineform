@@ -3,7 +3,7 @@ title: without words
 date: 2019-09-12
 ---
 
-<pre class="poem-text">
+<pre class="moment-text">
 grey notebook
  
 I’m usually good with words

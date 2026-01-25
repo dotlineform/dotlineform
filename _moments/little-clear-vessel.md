@@ -6,7 +6,7 @@ images:
   - file: little-clear-vessel.webp
     alt: little clear vessel
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 There is a little man and a little woman. They are holding hands because they love each other.
  
 There is a little clear vessel. The vessel is empty and open, and in this space the little man and the little woman contain their love.

@@ -6,7 +6,7 @@ images:
   - file: 4-stories.webp
     alt: 4 stories
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 There is a form
 it exists in a field of immeasurable emptiness
 which is its friend

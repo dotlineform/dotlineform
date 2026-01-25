@@ -6,7 +6,7 @@ images:
   - file: perfection-of-flowers.webp
     alt: perfection of flowers
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 drip drip drip
 but she won’t hear this clock
 the drips that marked her last hours

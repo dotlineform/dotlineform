@@ -5,7 +5,7 @@ images:
   - file: occasionally.webp
     alt: occasionally
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 occasionally I find myself
 thinking about loss
 it’s a strange feeling, preparing for moments that are inevitable

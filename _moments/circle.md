@@ -3,7 +3,7 @@ title: circle
 date: 2019-1-1
 date_display: c. 2019
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 and when we sit in a circle
  
 the space in the middle is where all our thoughts and feelings meet

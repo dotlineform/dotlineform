@@ -5,7 +5,7 @@ images:
   - file: a-lemon-tart-poem-3.webp
     alt: a lemon tart poem
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 light falls down from above
 the above that is known
 (and the above that will always be mysterious, mystical)

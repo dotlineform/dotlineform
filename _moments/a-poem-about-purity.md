@@ -5,7 +5,7 @@ images:
   - file: a-poem-about-purity.webp
     alt: a poem about purity
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 i only write this poem
 because she asked me to
 and when she reads it

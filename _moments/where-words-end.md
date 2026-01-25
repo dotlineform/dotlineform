@@ -5,7 +5,7 @@ images:
   - file: where-words-end.webp
     alt: where words end
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 love shines where words end
 
 what is a stone?

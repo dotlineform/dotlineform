@@ -6,7 +6,7 @@ images:
   - file: will-we-leave-residues.webp
     alt: will we leave residues
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 will we leave residues
 like the plants do
 tiny particles of soil in water

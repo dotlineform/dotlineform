@@ -6,7 +6,7 @@ images:
   - file: timeless.webp
     alt: timeless
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 <em>Acredito que todos temos dentro de nós um bocadinho daqueles que amamos. Mesmo que estejam longe ou já tenham partido.
 E digo amamos, no presente do indicativo. Porque o amor é um sentimento intemporal, por isso não é limitado nem por presença nem por ausência.
 Quando ele existe, existe. Existe livremente

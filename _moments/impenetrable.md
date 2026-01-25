@@ -6,7 +6,7 @@ images:
   - file: impenetrable-2.webp
     alt: impenetrable
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 dream life is a thing
 it’s as real as a jewel
  

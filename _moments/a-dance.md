@@ -2,7 +2,7 @@
 title: a dance
 date: 2018-4-25
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 what do we choose?
 we turn life into a dream, an ideal
 what is that dream, a mesh

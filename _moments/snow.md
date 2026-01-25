@@ -6,7 +6,7 @@ images:
   - file: snow.webp
     alt: snow
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 snow is pure my love
 but it’s frozen when it reaches us
  

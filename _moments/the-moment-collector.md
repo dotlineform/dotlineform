@@ -5,7 +5,7 @@ images:
   - file: the-moment-collector.webp
     alt: the moment collector
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 deep in a warm cellar
 many steps below
 where it’s quiet enough to hear dust settle

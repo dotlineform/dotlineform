@@ -2,7 +2,7 @@
 title: memory
 date: 2025-8-9
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 flowers and stems
 feel no regret as they die
 and sink into the water from where they came

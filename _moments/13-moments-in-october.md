@@ -5,7 +5,7 @@ images:
   - file: 13-moments-in-october.webp
     alt: 13 moments in October
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 we should be sleeping
 allow the winter to heal
 but instead we see everything falling apart in clear sight

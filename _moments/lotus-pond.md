@@ -3,7 +3,7 @@ title: lotus pond
 date: 2024-10-23
 date_display: c. 2024
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 where is the lotus flower?
 is it floating in the air
 or beneath the surface?

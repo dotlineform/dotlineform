@@ -2,7 +2,7 @@
 title: the moon and the sun
 date: 2024-10-24
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 what i was trying to say
  
 was about doubt

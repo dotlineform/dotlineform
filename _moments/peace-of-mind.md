@@ -5,7 +5,7 @@ images:
   - file: peace-of-mind.webp
     alt: peace of mind
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 keep me close to you honey
 let me know what’s going on
 tell me things without me asking

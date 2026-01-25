@@ -3,7 +3,7 @@ title: healing forms
 date: 2016-6-7
 date_display: c. 2016
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 I noticed something in my notes
  
 “Love and Desire, uncoiling then rejoining, causing friction, a perpetual machine”

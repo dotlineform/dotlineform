@@ -2,7 +2,7 @@
 title: a question
 date: 2014-10-9
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 i have been sitting here, surrounded by dusty artifacts
 for uncountable hundreds of years
 (perhaps uncountable thousands, i forget…)

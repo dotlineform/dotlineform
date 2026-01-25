@@ -2,7 +2,7 @@
 title: a selina
 date: 2014-8-24
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 after the dream I’m distracted, scanning crowds
 strange perspective of a dream is similar to how we feel when passing strangers in the street
 however spacially close, there is an unknown distance between us

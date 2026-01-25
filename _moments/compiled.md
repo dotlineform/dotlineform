@@ -2,7 +2,7 @@
 title: compiled
 date: 2019-9-25
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 <em>all the moments have long since passed</em>
  
 sand that is as old as the earth

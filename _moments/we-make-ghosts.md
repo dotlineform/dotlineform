@@ -6,7 +6,7 @@ images:
   - file: we-make-ghosts.webp
     alt: we make ghosts
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 ghosts pass through us all the time
 like subatomic particles which only rarely hit one of our particles
 (from their perspective, we are only slightly less empty than the night air)

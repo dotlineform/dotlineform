@@ -5,7 +5,7 @@ images:
   - file: sleepy-moments.webp
     alt: sleepy moments
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 warm breath in my ear
  
 your whispers become part of me

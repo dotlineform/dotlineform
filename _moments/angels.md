@@ -6,7 +6,7 @@ images:
   - file: angels.webp
     alt: angels
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 their faces are blank and empty
 thoughts turn inside ...
  

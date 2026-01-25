@@ -6,7 +6,7 @@ images:
   - file: samuel-beckett.webp
     alt: Samuel Beckett
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 I had a dream a few years ago. It sticks to me, like a strange glue.
  
 It was real, as real as dreams get. Not just a dream, but as if, it was real, whilst obviously being a dream.

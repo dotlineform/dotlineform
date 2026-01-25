@@ -6,7 +6,7 @@ images:
   - file: a-poem-about-love.webp
     alt: a poem about love
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 this is going to be
 (when the words come to me)
 a poem about love

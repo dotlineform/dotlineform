@@ -3,7 +3,7 @@ title: cascading waterfalls
 date: 2016-1-1
 date_display: c. 2016
 ---
-<pre class="poem-text">
+<pre class="moment-text">
 I feel like my heart is broken, and hurts more than a broken bone, but at same time not knowing why or how it happened. the feeling that it’s definately a real thing, but can’t be grasped.
  
 a constant slow gradual dissolving that one day just announces, without much warning, ok I’m breaking now, I just thought I’d let you know! and it’s like a question, this strange feeling talking to me: do you accept me for the feeling that I am? what are you going to do?
