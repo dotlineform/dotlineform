@@ -33,6 +33,7 @@
   --line: 1.65;
 
   --poem-measure: 72ch; /* adjust: 60ch–80ch typical */
+  --content-measure: var(--poem-measure); /* shared prose/media measure for new layouts */
 }
 
 /* Optional dark mode */
@@ -649,46 +650,172 @@ pre.poem-text{
 
 
 /* Base components (shared across sections):
-Use “component-first” naming with optional section modifiers.
-This gives you shared styling with room for per-section overrides. */
+Use “structure-first” naming and scope section-specific differences via the root page class
+(e.g. .work, .theme, .moment, .research-note).
+*/
+
 .page{
-/* generic page wrapper */
+  /* generic page wrapper */
 }
+
 .page__header{
-/* page header wrapper */
+  max-width: var(--content-measure);
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .page__title{
-/* page title */
+  margin: 0 0 var(--space-2);
 }
+
 .page__meta{
-/* page meta info */
+  margin: 0 0 var(--space-3);
 }
+
+.page__byline{
+  margin: 0 0 var(--space-1);
+}
+
 .content{
-/* generic content wrapper (prose body)*/
+  max-width: var(--content-measure);
+  margin-left: auto;
+  margin-right: auto;
+  white-space: normal;
 }
+
+/* Primary/top media on a page */
+.page__media{
+  max-width: var(--content-measure);
+  margin: var(--space-3) auto;
+}
+
+.page__mediaLink{
+  display: block;
+}
+
+.page__mediaImg{
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Definition list meta (e.g., Work “Details”) */
+.page__dl{
+  margin: 0;
+}
+
+.page__row{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: baseline;
+  column-gap: 10px;
+  padding: 6px 0;
+  border-top: 1px solid var(--border);
+}
+
+.page__row:first-child{
+  border-top: 0;
+}
+
+.page__tag{
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.page__nav{
+  max-width: var(--content-measure);
+  margin: var(--space-6) auto 0;
+}
+
+/* Supplements (HTML inserts, documentation images, attachments lists) */
+.supplements{
+  max-width: var(--content-measure);
+  margin: var(--space-5) auto 0;
+}
+
+.supplements__list{
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.supplements__item{
+  margin: 0 0 var(--space-2);
+}
+
+.supplements__links{
+  margin-top: var(--space-2);
+}
+
+.supplements__link{
+  margin: 0 0 var(--space-1);
+}
+
+/* Shared index component (used by Works/Themes/Moments/Research indexes) */
 .index{
-/* listing container */
+  margin-top: var(--space-3);
 }
+
 .index__item{
-/* listing item */
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: baseline;
+  column-gap: 10px;
+  padding: 8px 0;
 }
+
 .index__date{
-/* listing item date */
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  text-align: left;
 }
-.index__link{
-/* listing item link */
+
+.index__link:link,
+.index__link:active,
+.index__link:focus{
+  text-decoration: none !important;
+  color: var(--link);
+  font-weight: 500;
 }
+
+.index__link:visited{
+  text-decoration: none !important;
+  color: var(--link-visited);
+  font-weight: 500;
+}
+
+.index__link:hover{
+  color: var(--link-hover);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.index__link:focus-visible{
+  outline: 2px solid var(--border-strong);
+  outline-offset: 2px;
+}
+
+/* Generic card component (future use; keep workCard as-is for now) */
 .card{
-/* listing card wrapper */
+  display: block;
+  text-decoration: none;
 }
-.card__title{
-/* card title */
-}
-.card__meta{
-/* card meta info */
-}
+
 .card__thumb{
-/* card thumbnail image */
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.card__title{
+  font-weight: 600;
+}
+
+.card__meta{
+  opacity: 0.75;
+  font-size: 0.95em;
 }
 
 /* Section wrappers (plural, scoped): */
