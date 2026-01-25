@@ -3,22 +3,22 @@ layout: default
 ---
 
 <article class="page research-note">
-  <header class="note-header">
+  <header class="page__header">
     <h1>{{ page.title }}</h1>
     {% if page.date %}
-      <p class="muted small">{{ page.date | date: "%-d %b %Y" }}</p>
+      <p class="page__meta muted small">{{ page.date | date: "%-d %b %Y" }}</p>
     {% endif %}
   </header>
 
-  <div class="note-body">
+  <div class="content">
     {{ content }}
   </div>
 
   {% if page.html_inserts and page.html_inserts.size > 0 %}
     <hr>
-    <section class="note-inserts">
+    <section class="supplements">
       <h2>Supplements</h2>
-      <div class="note-insert-links">
+      <div class="supplements__links">
         {% for item in page.html_inserts %}
           {% if item.path %}
             {% assign href = item.path %}
@@ -30,7 +30,11 @@ layout: default
             {% assign href = '/assets/research/html/' | append: item %}
             {% assign text = item %}
           {% endif %}
-          <p class="note-insert-link">🔗 <a href="{{ href | relative_url }}">{{ text }}</a></p>
+          {% assign out_href = href %}
+          {% unless out_href contains '://' %}
+            {% assign out_href = out_href | relative_url %}
+          {% endunless %}
+          <p class="supplements__link">🔗 <a href="{{ out_href }}">{{ text | escape }}</a></p>
         {% endfor %}
       </div>
     </section>
