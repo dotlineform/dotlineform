@@ -3,27 +3,27 @@ layout: default
 ---
 
 <article class="page moment">
-  <header class="moment-header">
-    <h1>{{ page.title }}</h1>
+  <header class="page__header">
+    <h1 class="page__title">{{ page.title }}</h1>
 
     {% if page.date_display %}
-      <p class="muted small">{{ page.date_display }}</p>
+      <p class="page__meta muted small">{{ page.date_display }}</p>
     {% elsif page.date %}
-      <p class="muted small">{{ page.date | date: "%-d %b %Y" }}</p>
+      <p class="page__meta muted small">{{ page.date | date: "%-d %b %Y" }}</p>
     {% endif %}
   </header>
 
   <!-- render the first image at the top of the page -->
   {% if page.images and page.images.size > 0 %}
   {% assign hero = page.images[0] %}
-  <figure class="moment-media">
+  <figure class="page__media">
     {% assign img_src = hero.file %}
     {% unless img_src contains '://' %}
       {% assign img_file = img_src | remove_first: '/' %}
       {% assign img_src = '/assets/moments/img/' | append: img_file | relative_url %}
     {% endunless %}
 
-    <img src="{{ img_src }}"
+    <img class="page__mediaImg" src="{{ img_src }}"
          alt="{{ hero.alt | default: page.title | escape }}"
          loading="eager" fetchpriority="high" decoding="async">
     {% if hero.caption %}
@@ -32,7 +32,7 @@ layout: default
   </figure>
   {% endif %}
 
-  <div class="moment-body">
+  <div class="content">
     {{ content }}
   </div>
 </article>
