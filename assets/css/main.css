@@ -111,7 +111,15 @@ a:visited{ color: var(--link-visited); text-decoration: none; }
 a:hover{ color: var(--link-hover); text-decoration: underline; text-underline-offset: 2px; }
 a:focus-visible{ outline: 2px solid var(--border-strong); outline-offset: 2px; text-decoration: underline; text-underline-offset: 2px; }
 
+
 hr{ border: 0; border-top: 1px solid var(--border); margin: var(--space-5) 0; }
+
+/* Align horizontal rules to the shared reading measure on content pages */
+.page hr{
+  max-width: var(--content-measure);
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* Code */
 code, pre{ font-family: var(--font-mono); }
