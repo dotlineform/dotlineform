@@ -5,7 +5,7 @@ layout: works_note
 works:
   - "00286"
 ---
-<pre class="poem-text">
+<pre class="theme-text">
 This series explores how a line becomes a form without submitting to representation. Drawn quickly and intuitively, the pencil or ink travels, doubles back and knots, producing density and coherence through accumulation. In some works the motion compresses into a compact block, a contained turbulence; in others it opens into a dispersed field punctuated by heavier nodes which then give birth to new curves. The drawings can be understood as an embodied, process-led practice akin to automatism - reducing conscious precomposition so that continuity, accident, and self-interference generate the composition - yet without requiring psychological decoding. Structure is an emergent consequence of moving in time within the constraints of paper, friction, and habit.
 
 ‘Curve poems’ treats drawing as a problem in emergence: how can form arise from free movement without becoming illustration? Each work begins as an unscaffolded walk of the tool across paper. The commitment is to continuity - staying with the line long enough for it to generate its own conditions. Over time, the drawing produces local “rules” (densities, preferred arcs, recurring turns) that the hand then responds to, sometimes reinforcing them, sometimes escaping them. This is why the series can simultaneously refuse imposed structure and still exhibit strong structure: the order is not designed in advance; it precipitates from repetition, constraint, and feedback.
