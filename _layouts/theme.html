@@ -1,25 +1,24 @@
 ---
 layout: default
 ---
-<h1>{{ page.title }}</h1>
 
 <article class="page theme">
-  <header class="work-note-header">
+  <header class="theme-header">
     <h1>{{ page.title }}</h1>
     {% if page.date %}
       <p class="muted small">{{ page.date | date: "%-d %b %Y" }}</p>
     {% endif %}
   </header>
 
-  <div class="work-note-body">
+  <div class="theme-body">
     {{ content }}
   </div>
 
   {% if page.html_inserts and page.html_inserts.size > 0 %}
     <hr>
-    <section class="work-note-inserts">
+    <section class="theme-inserts">
       <h2>Supplements</h2>
-      <div class="work-note-insert-links">
+      <div class="theme-insert-links">
         {% for item in page.html_inserts %}
           {% if item.path %}
             {% assign href = item.path %}
@@ -31,7 +30,11 @@ layout: default
             {% assign href = '/assets/themes/html/' | append: item %}
             {% assign text = item %}
           {% endif %}
-          <p class="work-note-insert-link">🔗 <a href="{{ href | relative_url }}">{{ text }}</a></p>
+          {% assign out_href = href %}
+          {% unless out_href contains '://' %}
+            {% assign out_href = out_href | relative_url %}
+          {% endunless %}
+          <p class="theme-insert-link">🔗 <a href="{{ out_href }}">{{ text }}</a></p>
         {% endfor %}
       </div>
     </section>
