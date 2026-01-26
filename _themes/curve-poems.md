@@ -4,6 +4,7 @@ date: 2026-1-24
 layout: theme
 works:
   - "00286"
+  - "00361"
 ---
 <pre class="theme-text">
 This series explores how a line becomes a form without submitting to representation. Drawn quickly and intuitively, the pencil or ink travels, doubles back and knots, producing density and coherence through accumulation. In some works the motion compresses into a compact block, a contained turbulence; in others it opens into a dispersed field punctuated by heavier nodes which then give birth to new curves. The drawings can be understood as an embodied, process-led practice akin to automatism - reducing conscious precomposition so that continuity, accident, and self-interference generate the composition - yet without requiring psychological decoding. Structure is an emergent consequence of moving in time within the constraints of paper, friction, and habit.
