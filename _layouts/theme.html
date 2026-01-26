@@ -14,6 +14,43 @@ layout: default
     {{ content }}
   </div>
 
+  {%- assign work_ids = page.work_ids | default: page.works -%}
+
+  {%- if work_ids and work_ids != empty -%}
+    <hr>
+    <section class="theme__works">
+      <div class="index">
+        <h2 class="index__heading">selected work</h2>
+
+        {%- assign media_base = site.media_base | default: "" -%}
+        {%- assign asset_root = site.media_prefix | default: "/assets" -%}
+        {%- assign works_img_prefix = asset_root | append: "/works/img" -%}
+        {%- assign works_img_base = media_base | append: works_img_prefix | append: "/" -%}
+
+        {%- for wid in work_ids -%}
+          {%- assign work_doc = site.works | where: 'work_id', wid | first -%}
+          {%- if work_doc -%}
+            {%- assign thumb_src = works_img_base | append: wid | append: "-thumb-480.webp" -%}
+            {%- unless works_img_base contains '://' -%}
+              {%- assign thumb_src = thumb_src | relative_url -%}
+            {%- endunless -%}
+
+            <div class="index__item index__item--single">
+              <a class="index__link" href="{{ work_doc.url | relative_url }}">
+                <img class="index__thumb" src="{{ thumb_src }}" alt="{{ wid }} thumbnail" loading="lazy" decoding="async">
+                {{ work_doc.title | default: work_doc.slug | default: 'Untitled' }} [{{ wid }}]
+              </a>
+            </div>
+          {%- else -%}
+            <div class="index__item index__item--single">
+              <a class="index__link" href="{{ '/works/' | append: wid | append: '/' | relative_url }}">Untitled [{{ wid }}]</a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+  {%- endif -%}
+
   {% if page.html_inserts and page.html_inserts.size > 0 %}
     <hr>
     <section class="supplements">

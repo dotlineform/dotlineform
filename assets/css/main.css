@@ -427,12 +427,18 @@ figure.diagram figcaption{
 }
 
 /* row layout */
+
 .index__item{
   display: grid;
   grid-template-columns: 140px 1fr;
   align-items: baseline;
   column-gap: 10px;
   padding: 8px 0;
+}
+
+/* Single-column index rows (no date/prefix column) */
+.index__item--single{
+  grid-template-columns: 1fr;
 }
 
 /* date/prefix column */
@@ -464,9 +470,25 @@ figure.diagram figcaption{
   text-underline-offset: 2px;
 }
 
+
 .index__link:focus-visible{
   outline: 2px solid var(--border-strong);
   outline-offset: 2px;
+}
+
+/* Optional thumbnail shown before index links (e.g. Theme selected works) */
+.index__link{
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.index__thumb{
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  flex: 0 0 auto;
+  border-radius: 2px;
 }
 
 /* moment layout specific styles */
