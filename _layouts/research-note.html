@@ -28,8 +28,18 @@ layout: default
     <hr>
     <section class="supplements">
       <h2>Supplements</h2>
+      {%- assign has_html = false -%}
+      {%- assign has_pdf = false -%}
 
-      {% if page.html_inserts and page.html_inserts.size > 0 %}
+      {%- if page.html_inserts and page.html_inserts != empty -%}
+        {%- assign has_html = true -%}
+      {%- endif -%}
+
+      {%- if page.pdf_downloads and page.pdf_downloads != empty -%}
+        {%- assign has_pdf = true -%}
+      {%- endif -%}
+
+      {%- if has_html -%}
         <h3>HTML</h3>
         <div class="supplements__links">
           {% for item in page.html_inserts %}
@@ -52,7 +62,7 @@ layout: default
         </div>
       {% endif %}
 
-      {% if page.pdf_downloads and page.pdf_downloads.size > 0 %}
+      {%- if has_pdf -%}
         <h3>PDF</h3>
         <div class="supplements__links">
           {% for item in page.pdf_downloads %}
