@@ -1,7 +1,7 @@
 ---
 title: curve poems
 date: 2026-1-24
-layout: works_note
+layout: theme
 works:
   - "00286"
 ---
