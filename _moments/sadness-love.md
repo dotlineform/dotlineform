@@ -18,7 +18,7 @@ single moments are always cruel because we cannot perceive them for what they re
 {%- if page.images and page.images.size > 1 -%}
 {%- assign img2 = page.images[1] -%}
 <figure class="moment-hero">
-  <img src="{{ '/assets/poems/img/' | append: img2.file | relative_url }}"
+  <img src="{{ '/assets/moments/img/' | append: img2.file | relative_url }}"
        alt="{{ img2.alt | default: page.title }}"
        loading="lazy" decoding="async">
   {%- if img2.caption -%}
