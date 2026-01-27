@@ -8,9 +8,9 @@ layout: default
 {%- assign artist_line = artist_line | strip -%}
 
 {% assign media_base = site.media_base | default: "" %}
-{% assign asset_root = site.media_prefix | default: "/assets" %}
-{% assign works_img_prefix = asset_root | append: "/works/img" %}
-{% assign works_files_prefix = asset_root | append: "/works/files" %}
+{% assign media_prefix = site.media_prefix | default: "/assets" %}
+{% assign works_img_prefix = media_prefix | append: "/works/img" %}
+{% assign works_files_prefix = media_prefix | append: "/works/files" %}
 {% assign img_base = media_base | append: works_img_prefix | append: "/" %}
 {% assign files_base = media_base | append: works_files_prefix | append: "/" %}
 
