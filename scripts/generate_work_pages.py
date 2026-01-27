@@ -2,28 +2,30 @@
 """
 Generate Jekyll work pages from an Excel workbook.
 
-Default output: ./works/<ID>.md  (matches your "URLs mirror folder structure" preference)
-Supports collections too: use --output-dir _works
+This repo stores works as a Jekyll collection in `_works/`. The generator writes one Markdown
+file per work (e.g. `_works/00286.md`) with YAML front matter populated from three worksheets:
+
+- Works: base work metadata (1 row per work)
+- WorkImages: images joined by work_id (0..n rows per work)
+- WorkAttachments: attachments joined by work_id (0..n rows per work)
+
+YAML typing rules enforced by this script (so Excel cells do NOT need quoting):
+- Numbers are emitted unquoted for: year, height_cm, width_cm, depth_cm
+- Everything else is emitted as a quoted string (including dates like catalogue_date and fields like year_display)
+- Empty cells become YAML null
 
 Safe by default:
 - dry-run unless you pass --write
 - will not overwrite unless --force
 
 Example:
-  python3 scripts/generate_work_pages.py data/works.xlsx --sheet Works --write
-
-Assumptions to verify in your site:
-- Where work pages live: `works/` (pages) vs `_works/` (collection). This script writes to `--output-dir`.
-- Front matter keys expected by your Jekyll layout (default: `layout`, `title`, `date`, `work_id`, plus optional fields).
-- Excel sheet header row names must match the `--*-col` arguments exactly (case/spacing matters).
-- Attachment URLs are constructed as: <assets_base>/<ID>/files/<filename> (filenames must already exist in that folder).
+  python3 scripts/generate_work_pages.py data/works.xlsx --write
 """
 
 from __future__ import annotations
 
 import argparse
 import datetime as dt
-import os
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -77,34 +79,136 @@ def parse_list(raw: Any, sep: str = ",") -> List[str]:
 
 
 def yaml_quote(s: str) -> str:
-    # Conservative quoting to keep YAML safe
+    """Quote a string safely for YAML."""
     s = s.replace("\\", "\\\\").replace('"', '\\"')
     return f'"{s}"'
 
 
-def to_yaml_value(v: Any) -> str:
-    if isinstance(v, bool):
-        return "true" if v else "false"
-    if v is None:
-        return "null"
-    if isinstance(v, (int, float)):
-        # avoid "361.0"
-        if isinstance(v, float) and v.is_integer():
-            return str(int(v))
-        return str(v)
-    if isinstance(v, list):
-        if not v:
-            return "[]"
-        return "[" + ", ".join(yaml_quote(str(x)) for x in v) + "]"
-    return yaml_quote(str(v))
+NUMERIC_KEYS = {"year", "height_cm", "width_cm", "depth_cm"}
+
+
+def is_empty(value: Any) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str) and value.strip() == "":
+        return True
+    return False
+
+
+def coerce_numeric(value: Any) -> Optional[float]:
+    """Best-effort numeric coercion for dimension fields; returns None if not parseable."""
+    if is_empty(value):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    try:
+        return float(str(value).strip())
+    except Exception:
+        return None
+
+
+def coerce_int(value: Any) -> Optional[int]:
+    """Best-effort integer coercion for year; returns None if not parseable."""
+    if is_empty(value):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    try:
+        return int(str(value).strip())
+    except Exception:
+        return None
+
+
+def coerce_string(value: Any) -> Optional[str]:
+    """Coerce any non-empty value to a trimmed string (for quoted YAML output)."""
+    if is_empty(value):
+        return None
+    return str(value).strip()
+
+
+def dump_scalar(key: str, value: Any) -> str:
+    """Dump a scalar YAML key/value with typing rules."""
+    if value is None:
+        return f"{key}: null"
+
+    if key in NUMERIC_KEYS:
+        # year is an int; dimensions are floats but we render ints without .0
+        if key == "year":
+            iv = coerce_int(value)
+            return f"{key}: {iv}" if iv is not None else f"{key}: null"
+        fv = coerce_numeric(value)
+        if fv is None:
+            return f"{key}: null"
+        if fv.is_integer():
+            return f"{key}: {int(fv)}"
+        return f"{key}: {fv}"
+
+    # Everything else is a quoted string
+    sv = coerce_string(value)
+    return f"{key}: {yaml_quote(sv)}" if sv is not None else f"{key}: null"
+
+
+def dump_list_of_strings(key: str, values: List[str]) -> List[str]:
+    lines: List[str] = [f"{key}:"]
+    for v in values:
+        lines.append(f"  - {yaml_quote(str(v))}")
+    return lines
+
+
+def dump_list_of_dicts(key: str, items: List[Dict[str, Any]], field_order: Optional[List[str]] = None) -> List[str]:
+    """Dump a YAML list of dicts with stable key ordering."""
+    lines: List[str] = [f"{key}:"]
+    for item in items:
+        # First line for each item
+        lines.append("  -")
+        keys = field_order if field_order else list(item.keys())
+        for k in keys:
+            if k not in item:
+                continue
+            # All nested fields here are strings by design; emit as quoted string or null
+            sv = coerce_string(item.get(k))
+            if sv is None:
+                lines.append(f"    {k}: null")
+            else:
+                lines.append(f"    {k}: {yaml_quote(sv)}")
+    return lines
 
 
 def build_front_matter(fields: Dict[str, Any]) -> str:
-    lines = ["---"]
+    """Build YAML front matter in block style (supports lists of dicts)."""
+    # Policy: we intentionally emit explicit empty values to keep the front matter schema stable.
+    # - Empty/blank scalars become `key: null`
+    # - Empty lists become `key: []`
+    # This makes diffs, validation, and layout logic simpler and easier to test.
+    lines: List[str] = ["---"]
+
     for k, v in fields.items():
-        if v is None:
+        if isinstance(v, list):
+            if not v:
+                # Emit empty list explicitly (rare; keeps schema predictable)
+                lines.append(f"{k}: []")
+                continue
+
+            # Detect list of dicts vs list of strings
+            if all(isinstance(x, dict) for x in v):
+                if k == "creators":
+                    lines.extend(dump_list_of_dicts(k, v, field_order=["name", "role"]))
+                elif k == "images":
+                    lines.extend(dump_list_of_dicts(k, v, field_order=["file", "caption", "alt"]))
+                elif k == "attachments":
+                    lines.extend(dump_list_of_dicts(k, v, field_order=["file", "label"]))
+                else:
+                    lines.extend(dump_list_of_dicts(k, v))
+            else:
+                # List of scalars -> strings
+                lines.extend(dump_list_of_strings(k, [str(x) for x in v if not is_empty(x)]))
             continue
-        lines.append(f"{k}: {to_yaml_value(v)}")
+
+        # Scalars
+        lines.append(dump_scalar(k, v))
+
     lines.append("---")
     return "\n".join(lines) + "\n"
 
@@ -114,30 +218,23 @@ def build_front_matter(fields: Dict[str, Any]) -> str:
 # ----------------------------
 # High-level flow:
 # 1) Parse CLI args (column mapping + output options)
-# 2) Load workbook + sheet
-# 3) Build a header->index map from row 1
-# 4) Iterate rows -> build front matter + body -> write one file per work
-#
-# Key implementation checks (confirm against your Jekyll repo):
-# - Does your layout expect `work_id` or `id` (or something else)?
-# - Do you want files named `00361.md` (this script) or nested folders like `works/00361/index.md`?
-# - Do you use a collection (`_works`) and require `permalink`?
-# - Which front matter keys are actually used (primary/thumb/series/etc.)?
+# 2) Load workbook + sheets
+# 3) Build header->index maps from row 1 of each sheet
+# 4) Iterate Works rows -> build front matter + body -> write one file per work
 def main() -> None:
     # CLI arguments define how we map Excel columns to front matter fields, and where output files go.
     ap = argparse.ArgumentParser()
     ap.add_argument("xlsx", help="Path to Excel workbook (.xlsx)")
-    ap.add_argument("--sheet", default=None, help="Sheet name (default: active sheet)")
-    ap.add_argument("--output-dir", default="works", help="Output folder (works or _works)")
-    ap.add_argument("--id-col", default="id", help="Column header for work id")
-    ap.add_argument("--title-col", default="title", help="Column header for title")
-    ap.add_argument("--date-col", default="date", help="Column header for date")
-    ap.add_argument("--layout", default="theme", help="Default layout if column missing")
-    ap.add_argument("--permalink", default="", help="If set, use as permalink pattern, e.g. /works/{id}/")
-    ap.add_argument("--assets-base", default="/assets/works", help="Base path for work assets")
-    ap.add_argument("--attachments-col", default="attachments", help="Column header for attachments (semicolon-separated)")
-    ap.add_argument("--tags-col", default="tags", help="Column header for tags (comma-separated)")
-    ap.add_argument("--notes-col", default="notes", help="Column header for notes/body text")
+
+    # Worksheet names
+    ap.add_argument("--works-sheet", default="Works", help="Worksheet name for base work metadata")
+    ap.add_argument("--images-sheet", default="WorkImages", help="Worksheet name for work images")
+    ap.add_argument("--attachments-sheet", default="WorkAttachments", help="Worksheet name for work attachments")
+
+    # Output
+    ap.add_argument("--output-dir", default="_works", help="Output folder for generated work pages")
+
+    # Write controls
     ap.add_argument("--write", action="store_true", help="Actually write files (otherwise dry-run)")
     ap.add_argument("--force", action="store_true", help="Overwrite existing files")
     args = ap.parse_args()
@@ -150,20 +247,23 @@ def main() -> None:
     # `data_only=True` reads the last-calculated values of formula cells.
     # If your sheet relies on formulas that haven't been calculated/saved, values may be None.
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
-    ws = wb[args.sheet] if args.sheet else wb.active
 
-    # Header row (row 1) is treated as canonical column names.
-    # IMPORTANT: the names must match `--id-col`, `--title-col`, etc. exactly.
-    rows = list(ws.iter_rows(values_only=True))
-    if not rows:
-        raise SystemExit("Sheet is empty")
+    def read_sheet_rows(sheet_name: str) -> List[tuple]:
+        if sheet_name not in wb.sheetnames:
+            raise SystemExit(f"Sheet not found in workbook: {sheet_name}")
+        ws = wb[sheet_name]
+        rows = list(ws.iter_rows(values_only=True))
+        if not rows:
+            return []
+        return rows
 
-    headers = [str(h).strip() if h is not None else "" for h in rows[0]]
-    header_index = {h: i for i, h in enumerate(headers) if h}
+    def build_header_index(rows: List[tuple]) -> Dict[str, int]:
+        if not rows:
+            return {}
+        headers = [str(h).strip() if h is not None else "" for h in rows[0]]
+        return {h: i for i, h in enumerate(headers) if h}
 
-    # Helper for safe cell lookup by column header.
-    # Returns None if the column is absent or the row is short.
-    def cell(row: tuple, col_name: str) -> Any:
+    def cell(row: tuple, header_index: Dict[str, int], col_name: str) -> Any:
         i = header_index.get(col_name)
         return None if i is None or i >= len(row) else row[i]
 
@@ -173,96 +273,130 @@ def main() -> None:
     out_dir = Path(args.output_dir).expanduser()
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    # Load all worksheets up-front.
+    works_rows = read_sheet_rows(args.works_sheet)
+    images_rows = read_sheet_rows(args.images_sheet)
+    attachments_rows = read_sheet_rows(args.attachments_sheet)
+
+    if not works_rows:
+        raise SystemExit(f"Works sheet '{args.works_sheet}' is empty")
+
+    works_hi = build_header_index(works_rows)
+    images_hi = build_header_index(images_rows) if images_rows else {}
+    attachments_hi = build_header_index(attachments_rows) if attachments_rows else {}
+
+    # Pre-index images by work_id
+    images_by_work: Dict[str, List[Dict[str, Any]]] = {}
+    for r in images_rows[1:] if len(images_rows) > 1 else []:
+        raw_wid = cell(r, images_hi, "work_id")
+        if is_empty(raw_wid):
+            continue
+        wid = slug_id(raw_wid)
+        img = {
+            "file": coerce_string(cell(r, images_hi, "file")),
+            "caption": coerce_string(cell(r, images_hi, "caption")),
+            "alt": coerce_string(cell(r, images_hi, "alt")),
+        }
+        # Drop entries with no file
+        if is_empty(img.get("file")):
+            continue
+        images_by_work.setdefault(wid, []).append(img)
+
+    # Pre-index attachments by work_id
+    attachments_by_work: Dict[str, List[Dict[str, Any]]] = {}
+    for r in attachments_rows[1:] if len(attachments_rows) > 1 else []:
+        raw_wid = cell(r, attachments_hi, "work_id")
+        if is_empty(raw_wid):
+            continue
+        wid = slug_id(raw_wid)
+        att = {
+            "file": coerce_string(cell(r, attachments_hi, "file")),
+            "label": coerce_string(cell(r, attachments_hi, "label")),
+        }
+        if is_empty(att.get("file")):
+            continue
+        attachments_by_work.setdefault(wid, []).append(att)
+
     written = 0
     skipped = 0
 
-    # Iterate each data row and emit one Markdown file per work.
-    # Rows missing an ID or title are skipped.
-    for r in rows[1:]:
-        raw_id = cell(r, args.id_col)
-        raw_title = cell(r, args.title_col)
-        if raw_id is None or raw_title is None or str(raw_title).strip() == "":
+    # Iterate each Works row and emit one Markdown file per work.
+    for r in works_rows[1:]:
+        raw_work_id = cell(r, works_hi, "work_id")
+        if is_empty(raw_work_id):
             skipped += 1
             continue
 
-        wid = slug_id(raw_id)
-        title = str(raw_title).strip()
+        wid = slug_id(raw_work_id)
 
-        # If the workbook lacks a date, we fall back to today's date.
-        # You may want to enforce presence instead (or use a different default) for content consistency.
-        date_val = parse_date(cell(r, args.date_col)) or dt.date.today().isoformat()
+        # Creators: support either explicit creators_name/creators_role columns,
+        # or creator_name/creator_role columns. Default to a single creator if present.
+        creator_name = (
+            cell(r, works_hi, "creators_name")
+            if "creators_name" in works_hi
+            else cell(r, works_hi, "creator_name")
+        )
+        creator_role = (
+            cell(r, works_hi, "creators_role")
+            if "creators_role" in works_hi
+            else cell(r, works_hi, "creator_role")
+        )
 
-        # Optional columns: these are included only if present in the header row.
-        # `catalogue_date` is intended for sorting only (should not be displayed on the work page).
-        catalogue_date = parse_date(cell(r, "catalogue_date"))
-        primary = cell(r, "primary")
-        thumb = cell(r, "thumb")
-        series = cell(r, "series")
-        medium = cell(r, "medium")
-        dimensions = cell(r, "dimensions")
+        creators: List[Dict[str, Any]] = []
+        if not is_empty(creator_name) or not is_empty(creator_role):
+            creators.append(
+                {
+                    "name": coerce_string(creator_name) or "",
+                    "role": coerce_string(creator_role) or "",
+                }
+            )
 
-        tags = parse_list(cell(r, args.tags_col), sep=",")
-        attachments = parse_list(cell(r, args.attachments_col), sep=";")
+        # Tags: comma-separated in Excel
+        tags = parse_list(cell(r, works_hi, "tags"), sep=",")
 
-        # Attachments assumption:
-        # - Excel column contains filenames (not full paths/URLs)
-        # - Files are stored at: <assets_base>/<ID>/files/<filename>
-        #   e.g. /assets/works/00361/files/statement.html
-        # Verify this matches your repo's assets folder structure.
-        attachment_urls = [
-            f"{args.assets_base}/{wid}/files/{fname}" for fname in attachments
-        ]
-
-        # Front matter payload written to each page.
-        # IMPORTANT: Confirm these keys match what your Jekyll layout expects.
-        # For example, you may already use `works:` arrays, `image:` keys, or different naming.
+        # Fields in stable order (matches your canonical front matter schema)
         fm: Dict[str, Any] = {
-            "title": title,
-            "date": date_val,
-            "layout": str(cell(r, "layout")).strip() if cell(r, "layout") else args.layout,
-            "work_id": wid,
-            # Sorting-only field; your layout should not display it.
-            "catalogue_date": catalogue_date,
-            "series": str(series).strip() if series else None,
-            "medium": str(medium).strip() if medium else None,
-            "dimensions": str(dimensions).strip() if dimensions else None,
-            "primary": str(primary).strip() if primary else None,
-            "thumb": str(thumb).strip() if thumb else None,
-            "tags": tags if tags else None,
+            "work_id": wid,  # emitted as quoted string
+            "creators": creators,
+            "artist_display": coerce_string(cell(r, works_hi, "artist_display")),
+            "title": coerce_string(cell(r, works_hi, "title")),
+            "year": coerce_int(cell(r, works_hi, "year")),
+            "year_display": coerce_string(cell(r, works_hi, "year_display")),
+            "series": coerce_string(cell(r, works_hi, "series")),
+            "medium_type": coerce_string(cell(r, works_hi, "medium_type")),
+            "medium_caption": coerce_string(cell(r, works_hi, "medium_caption")),
+            "duration": coerce_string(cell(r, works_hi, "duration")),
+            "height_cm": coerce_numeric(cell(r, works_hi, "height_cm")),
+            "width_cm": coerce_numeric(cell(r, works_hi, "width_cm")),
+            "depth_cm": coerce_numeric(cell(r, works_hi, "depth_cm")),
+            "tags": tags,
+            # catalogue_date should be stored as an ISO string; quote it in YAML
+            "catalogue_date": parse_date(cell(r, works_hi, "catalogue_date")),
+            "orientation": coerce_string(cell(r, works_hi, "orientation")),
+            "storage_location": coerce_string(cell(r, works_hi, "storage_location")),
+            "provenance": coerce_string(cell(r, works_hi, "provenance")),
+            "checksum": coerce_string(cell(r, works_hi, "checksum")),
+            "notes_private": coerce_string(cell(r, works_hi, "notes_private")),
         }
 
-        # Permalink is optional. It's typically needed for collections to guarantee stable URLs.
-        if args.permalink:
-            fm["permalink"] = args.permalink.format(id=wid)
+        # Join in images/attachments from their respective sheets
+        imgs = images_by_work.get(wid, [])
+        atts = attachments_by_work.get(wid, [])
+        if imgs:
+            fm["images"] = imgs
+        if atts:
+            fm["attachments"] = atts
 
-        # File content = YAML front matter + optional body text + optional supplements list.
-        body_lines: List[str] = []
-        notes = cell(r, args.notes_col)
-        if notes and str(notes).strip():
-            body_lines.append(str(notes).strip())
-            body_lines.append("")
-
-        if attachment_urls:
-            body_lines.append("## Supplements")
-            for url in attachment_urls:
-                fname = url.split("/")[-1]
-                body_lines.append(f"- [{fname}]({url})")
-            body_lines.append("")
-
-        content = build_front_matter(fm) + "\n".join(body_lines).rstrip() + "\n"
+        content = build_front_matter(fm) + "\n"
 
         out_path = out_dir / f"{wid}.md"
         exists = out_path.exists()
 
-        # Safety: default behaviour is to NOT overwrite existing pages.
-        # Use --force to overwrite.
         if exists and not args.force:
             print(f"SKIP (exists): {out_path}")
             skipped += 1
             continue
 
-        # Dry-run by default: prints what would be written.
-        # Use --write to actually write files.
         if args.write:
             out_path.write_text(content, encoding="utf-8")
             print(f"WRITE: {out_path}")
