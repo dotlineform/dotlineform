@@ -40,7 +40,6 @@ layout: default
       <h2>Supplements</h2>
 
       {%- if has_html -%}
-        <h3>HTML</h3>
         <div class="supplements__links">
           {% for item in page.html_inserts %}
             {% if item.path %}
@@ -63,7 +62,6 @@ layout: default
       {% endif %}
 
       {%- if has_pdf -%}
-        <h3>PDF</h3>
         <div class="supplements__links">
           {% for item in page.pdf_downloads %}
             {% if item.path %}

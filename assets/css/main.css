@@ -721,13 +721,15 @@ Use “structure-first” naming and scope section-specific differences via the 
 .supplements__link{
   margin: 0 0 var(--space-1);
   position: relative;
-  padding-left: 1.5em; /* space for the icon */
+  padding-left: 1.75em; /* space for the icon */
 }
 .supplements__link::before{
   position: absolute;
   left: 0;
-  top: 0.05em;   /* small vertical tweak */
-  line-height: 1;
+  top: 52%;
+  transform: translateY(-50%);
+  line-height: 1.35;     /* looser line box for emoji glyphs */
+  display: inline-block;
   opacity: 0.8; /* icon slightly muted */
 }
 .supplements__link--html::before{ content:"🔗"; }
