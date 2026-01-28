@@ -197,9 +197,7 @@ def build_front_matter(fields: Dict[str, Any]) -> str:
 
             # Detect list of dicts vs list of strings
             if all(isinstance(x, dict) for x in v):
-                if k == "creators":
-                    lines.extend(dump_list_of_dicts(k, v, field_order=["name", "role"]))
-                elif k == "images":
+                if k == "images":
                     lines.extend(dump_list_of_dicts(k, v, field_order=["file", "caption", "alt"]))
                 elif k == "attachments":
                     lines.extend(dump_list_of_dicts(k, v, field_order=["file", "label"]))
@@ -225,7 +223,7 @@ def build_front_matter(fields: Dict[str, Any]) -> str:
 # Coercers should return the Python type we want before YAML emission:
 # - strings (quoted), ints/floats (unquoted for configured numeric keys), or None (-> null)
 WORKS_SCHEMA: List[tuple[str, str, Any]] = [
-    ("artist_display", "artist_display", coerce_string),
+    ("artist", "artist", coerce_string),
     ("title", "title", coerce_string),
     ("year", "year", coerce_int),
     ("year_display", "year_display", coerce_string),
@@ -247,7 +245,7 @@ WORKS_SCHEMA: List[tuple[str, str, Any]] = [
 
 
 def build_works_front_matter(works_row: tuple, works_hi: Dict[str, int]) -> Dict[str, Any]:
-    """Build the scalar portion of Works front matter (excluding work_id, creators, tags, images, attachments)."""
+    """Build the scalar portion of Works front matter (excluding work_id, tags, images, attachments)."""
     fm: Dict[str, Any] = {}
     for fm_key, col_name, coercer in WORKS_SCHEMA:
         raw = works_row[works_hi[col_name]] if col_name in works_hi else None
@@ -267,15 +265,6 @@ def compute_work_checksum(front_matter: Dict[str, Any]) -> str:
     """Compute a deterministic checksum for a work from its front matter (excluding checksum itself)."""
     payload = dict(front_matter)
     payload.pop("checksum", None)
-
-    # Stable sorting for nested lists that represent joined tables
-    creators = payload.get("creators")
-    if isinstance(creators, list):
-        creators_sorted = sorted(
-            creators,
-            key=lambda d: (_sort_key_safe(d.get("name")), _sort_key_safe(d.get("role"))),
-        )
-        payload["creators"] = creators_sorted
 
     images = payload.get("images")
     if isinstance(images, list):
@@ -453,33 +442,11 @@ def main() -> None:
 
         wid = slug_id(raw_work_id)
 
-        # Creators: support either explicit creators_name/creators_role columns,
-        # or creator_name/creator_role columns. Default to a single creator if present.
-        creator_name = (
-            cell(r, works_hi, "creators_name")
-            if "creators_name" in works_hi
-            else cell(r, works_hi, "creator_name")
-        )
-        creator_role = (
-            cell(r, works_hi, "creators_role")
-            if "creators_role" in works_hi
-            else cell(r, works_hi, "creator_role")
-        )
-
-        creators: List[Dict[str, Any]] = []
-        if not is_empty(creator_name) or not is_empty(creator_role):
-            creators.append(
-                {
-                    "name": coerce_string(creator_name) or "",
-                    "role": coerce_string(creator_role) or "",
-                }
-            )
-
         # Tags: comma-separated in Excel
         tags = parse_list(cell(r, works_hi, "tags"), sep=",")
 
         # Fields in stable order (matches your canonical front matter schema)
-        fm: Dict[str, Any] = {"work_id": wid, "creators": creators}
+        fm: Dict[str, Any] = {"work_id": wid}
         fm.update(build_works_front_matter(r, works_hi))
         fm["tags"] = tags
 
