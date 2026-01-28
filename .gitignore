@@ -16,3 +16,7 @@ vendor/bundle/
 ~$*.xlsx
 ~$*.xlsm
 ~$*.xls
+
+# Python
+__pycache__/
+*.pyc
