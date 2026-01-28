@@ -176,6 +176,7 @@ def dump_list_of_dicts(key: str, items: List[Dict[str, Any]], field_order: Optio
     return lines
 
 
+
 def build_front_matter(fields: Dict[str, Any]) -> str:
     """Build YAML front matter in block style (supports lists of dicts)."""
     # Policy: we intentionally emit explicit empty values to keep the front matter schema stable.
@@ -211,6 +212,44 @@ def build_front_matter(fields: Dict[str, Any]) -> str:
 
     lines.append("---")
     return "\n".join(lines) + "\n"
+
+
+# ----------------------------
+# Canonical schema (Works sheet)
+# ----------------------------
+# Define the Works->front matter mapping once so adding a new field is a one-line change.
+# Each entry is: (front_matter_key, excel_column_name, coercer)
+# Coercers should return the Python type we want before YAML emission:
+# - strings (quoted), ints/floats (unquoted for configured numeric keys), or None (-> null)
+WORKS_SCHEMA: List[tuple[str, str, Any]] = [
+    ("artist_display", "artist_display", coerce_string),
+    ("title", "title", coerce_string),
+    ("year", "year", coerce_int),
+    ("year_display", "year_display", coerce_string),
+    ("series", "series", coerce_string),
+    ("medium_type", "medium_type", coerce_string),
+    ("medium_caption", "medium_caption", coerce_string),
+    ("duration", "duration", coerce_string),
+    ("height_cm", "height_cm", coerce_numeric),
+    ("width_cm", "width_cm", coerce_numeric),
+    ("depth_cm", "depth_cm", coerce_numeric),
+    # tags handled separately (csv list)
+    ("catalogue_date", "catalogue_date", parse_date),
+    ("orientation", "orientation", coerce_string),
+    ("storage_location", "storage_location", coerce_string),
+    ("provenance", "provenance", coerce_string),
+    ("checksum", "checksum", coerce_string),
+    ("notes_private", "notes_private", coerce_string),
+]
+
+
+def build_works_front_matter(works_row: tuple, works_hi: Dict[str, int]) -> Dict[str, Any]:
+    """Build the scalar portion of Works front matter (excluding work_id, creators, tags, images, attachments)."""
+    fm: Dict[str, Any] = {}
+    for fm_key, col_name, coercer in WORKS_SCHEMA:
+        raw = works_row[works_hi[col_name]] if col_name in works_hi else None
+        fm[fm_key] = coercer(raw)
+    return fm
 
 
 # ----------------------------
@@ -319,9 +358,13 @@ def main() -> None:
 
     written = 0
     skipped = 0
+    total = max(len(works_rows) - 1, 0)  # exclude header row
+    processed = 0
 
     # Iterate each Works row and emit one Markdown file per work.
     for r in works_rows[1:]:
+        processed += 1
+        prefix = f"[{processed}/{total}] "
         raw_work_id = cell(r, works_hi, "work_id")
         if is_empty(raw_work_id):
             skipped += 1
@@ -355,29 +398,9 @@ def main() -> None:
         tags = parse_list(cell(r, works_hi, "tags"), sep=",")
 
         # Fields in stable order (matches your canonical front matter schema)
-        fm: Dict[str, Any] = {
-            "work_id": wid,  # emitted as quoted string
-            "creators": creators,
-            "artist_display": coerce_string(cell(r, works_hi, "artist_display")),
-            "title": coerce_string(cell(r, works_hi, "title")),
-            "year": coerce_int(cell(r, works_hi, "year")),
-            "year_display": coerce_string(cell(r, works_hi, "year_display")),
-            "series": coerce_string(cell(r, works_hi, "series")),
-            "medium_type": coerce_string(cell(r, works_hi, "medium_type")),
-            "medium_caption": coerce_string(cell(r, works_hi, "medium_caption")),
-            "duration": coerce_string(cell(r, works_hi, "duration")),
-            "height_cm": coerce_numeric(cell(r, works_hi, "height_cm")),
-            "width_cm": coerce_numeric(cell(r, works_hi, "width_cm")),
-            "depth_cm": coerce_numeric(cell(r, works_hi, "depth_cm")),
-            "tags": tags,
-            # catalogue_date should be stored as an ISO string; quote it in YAML
-            "catalogue_date": parse_date(cell(r, works_hi, "catalogue_date")),
-            "orientation": coerce_string(cell(r, works_hi, "orientation")),
-            "storage_location": coerce_string(cell(r, works_hi, "storage_location")),
-            "provenance": coerce_string(cell(r, works_hi, "provenance")),
-            "checksum": coerce_string(cell(r, works_hi, "checksum")),
-            "notes_private": coerce_string(cell(r, works_hi, "notes_private")),
-        }
+        fm: Dict[str, Any] = {"work_id": wid, "creators": creators}
+        fm.update(build_works_front_matter(r, works_hi))
+        fm["tags"] = tags
 
         # Join in images/attachments from their respective sheets
         imgs = images_by_work.get(wid, [])
@@ -393,16 +416,16 @@ def main() -> None:
         exists = out_path.exists()
 
         if exists and not args.force:
-            print(f"SKIP (exists): {out_path}")
+            print(f"{prefix}SKIP (exists): {out_path}")
             skipped += 1
             continue
 
         if args.write:
             out_path.write_text(content, encoding="utf-8")
-            print(f"WRITE: {out_path}")
+            print(f"{prefix}WRITE: {out_path}")
             written += 1
         else:
-            print(f"DRY-RUN: would write {out_path} (overwrite={exists})")
+            print(f"{prefix}DRY-RUN: would write {out_path} (overwrite={exists})")
             written += 1
 
     print(f"\nDone. {'Would write' if not args.write else 'Wrote'}: {written}. Skipped: {skipped}.")
