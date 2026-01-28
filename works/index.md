@@ -5,21 +5,19 @@ permalink: /works/
 section: works
 ---
 
-<!-- when the cataloguing is complete, use 'recent work' and sort by work.date -->
-
 {% assign works_items = site.works %}
 {% if works_items and works_items != empty %}
-  {% assign sorted_works = works_items | sort: 'catalogue_date' | reverse %}
+
+  {% assign sorted_works = works_items | sort: 'work_id' | reverse %}
 
   <div class="index">
-    <h1 class="index__heading">recently added work</h1>
-    {% for work in sorted_works limit: 30 %}
-    <div class="index__item">
-      <span class="index__date">{% if work.catalogue_date %}{{ work.catalogue_date | date: "%-d %b %Y" }}{% endif %}</span>
-      <a class="index__link" href="{{ work.url | relative_url }}">{{ work.title | default: work.slug }}</a>
-    </div>
+    <h1 class="index__heading">recent work</h1>
+
+    {% for w in sorted_works limit: 30 %}
+      {% include work_card.html work=w %}
     {% endfor %}
   </div>
+
 {% else %}
   <p>no works yet</p>
 {% endif %}

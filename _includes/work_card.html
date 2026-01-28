@@ -4,7 +4,7 @@
 {% assign media_prefix = site.media_prefix | default: "/assets" %}
 {% assign base = media_base | append: media_prefix | append: "/works/img/" %}
 
-{% assign thumb = base | append: w.work_id | append: "-thumb-480.webp" %}
+{% assign thumb = base | append: w.work_id | append: "-thumb-96.webp" %}
 {% assign thumb_out = thumb %}
 {% unless base contains '://' %}{% assign thumb_out = thumb | relative_url %}{% endunless %}
 
@@ -15,9 +15,8 @@
     alt="{{ w.title | escape }}"
     loading="lazy"
     decoding="async">
-  <div class="workCard__meta">
+  <div class="workCard__row">
+    <div class="workCard__work_id">{{ w.work_id }}</div>
     <div class="workCard__title">{{ w.title | escape }}</div>
-    {% if w.year_display or w.year %}<div class="workCard__sub">{{ w.year_display | default: w.year }}</div>{% endif %}
-    {% if w.medium_caption or w.medium_type %}<div class="workCard__sub">{{ w.medium_caption | default: w.medium_type }}</div>{% endif %}
   </div>
 </a>

@@ -22,39 +22,14 @@ layout: default
       <div class="index">
         <h2 class="index__heading">selected work</h2>
 
-        {%- assign thumb_base = site.thumb_base | default: "" -%}
-        {%- assign thumb_root = site.thumb_prefix | default: "/assets" -%}
-        {%- assign thumbs_prefix = thumb_root | append: "/works/img" -%}
-        {%- assign works_img_base = thumb_base | append: thumbs_prefix | append: "/" -%}
-
         {%- for wid in work_ids -%}
           {%- assign work_doc = site.works | where: 'work_id', wid | first -%}
           {%- if work_doc -%}
-            {%- assign thumb96 = works_img_base | append: wid | append: "-thumb-96.webp" -%}
-            {%- assign thumb192 = works_img_base | append: wid | append: "-thumb-192.webp" -%}
-            {%- unless works_img_base contains '://' -%}
-              {%- assign thumb96 = thumb96 | relative_url -%}
-              {%- assign thumb192 = thumb192 | relative_url -%}
-            {%- endunless -%}
-
-            <div class="index__item index__item--single">
-              <a class="index__link" href="{{ work_doc.url | relative_url }}">
-                <img
-                  class="index__thumb"
-                  src="{{ thumb96 }}"
-                  srcset="{{ thumb96 }} 96w, {{ thumb192 }} 192w"
-                  sizes="48px"
-                  width="48"
-                  height="48"
-                  alt="{{ wid }} thumbnail"
-                  loading="lazy"
-                  decoding="async">
-                {{ work_doc.title | default: work_doc.slug | default: 'Untitled' }} [{{ wid }}]
-              </a>
-            </div>
+            {%- include work_card.html work=work_doc -%}
           {%- else -%}
-            <div class="index__item index__item--single">
-              <a class="index__link" href="{{ '/works/' | append: wid | append: '/' | relative_url }}">Untitled [{{ wid }}]</a>
+            <div class="index__item">
+              <span class="index__work_id">{{ wid }}</span>
+              <a class="index__link" href="{{ '/works/' | append: wid | append: '/' | relative_url }}">Untitled</a>
             </div>
           {%- endif -%}
         {%- endfor -%}

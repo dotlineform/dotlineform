@@ -4,8 +4,6 @@ layout: default
 
 {% assign wid = page.work_id | default: page.slug %}
 {%- assign title_txt = page.title | default: "" | strip -%}
-{%- capture artist_line -%}{% include artist_line.html page=page %}{%- endcapture -%}
-{%- assign artist_line = artist_line | strip -%}
 
 {% assign media_base = site.media_base | default: "" %}
 {% assign media_prefix = site.media_prefix | default: "/assets" %}
@@ -54,12 +52,12 @@ layout: default
     <div class="page__caption">
       <div class="page__row work__titleRow">{% if title_txt != "" %}{{ title_txt }}{% else %}Untitled{% endif %}</div>
 
-      {% if page.creators and page.creators.size > 1 and artist_line != "" %}
-        <div class="page__row">{{ artist_line }}</div>
+      {% if page.year_display %}
+        <div class="page__row">{{ page.year_display }}</div>
       {% endif %}
 
-      {% if page.medium_caption or page.medium_type %}
-        <div class="page__row">{% if page.medium_caption %}{{ page.medium_caption }}{% else %}{{ page.medium_type }}{% endif %}</div>
+      {% if page.medium_caption %}
+        <div class="page__row">{{ page.medium_caption }}</div>
       {% endif %}
 
       {% if page.duration %}
