@@ -290,6 +290,67 @@ figure.diagram figcaption{
   cursor: default;
 }
 
+/* Mobile “More” overflow nav (uses <details>/<summary>) */
+.nav-more{ display: none; }
+
+/* Make summary look like your existing pills */
+.nav-more__summary{
+  list-style: none;
+  cursor: pointer;
+}
+.nav-more__summary::-webkit-details-marker{ display: none; } /* Safari/Chrome */
+
+/* Only style the active state for the summary (so we don't change your link-active behaviour elsewhere) */
+.site-nav summary.nav-item.is-active{
+  background: var(--panel-2);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* Dropdown panel + items */
+.nav-more__panel{
+  display: none; /* default closed */
+}
+
+.nav-more[open] .nav-more__panel{
+  display: block;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 180px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 8px;
+  z-index: 50;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+
+.nav-more__item{
+  display: block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-more__item:hover{
+  background: var(--panel-2);
+}
+
+.nav-more__item.is-active{
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+}
+
+/* Mobile: hide overflow inline items and show “more” */
+@media (max-width: 640px){
+  .site-nav .nav-item--overflow{ display: none; }
+  .nav-more{ display: inline-block; position: relative; }
+  .site-nav .nav-item{ margin-left: 8px; }
+  .site-nav .nav-item:first-child{ margin-left: 0; }
+}
+
 .site-header-spacer{ 
   justify-self: end; 
 }
@@ -898,13 +959,15 @@ Use “structure-first” naming and scope section-specific differences via the 
 
 @media (max-width: 640px){
   .seriesNav{
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline; /* or center */
   }
   .seriesNav__prev,
   .seriesNav__next{
-    width: 100%;
-    text-align: center;
+    width: auto;
+    text-align: left;
+    white-space: nowrap;
   }
 }
 

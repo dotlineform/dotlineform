@@ -54,7 +54,7 @@
         {%- assign is_moments_index = false -%}
         {%- assign is_moments_active = false -%}
         {%- if u == '/moments/' -%}{%- assign is_moments_index = true -%}{%- endif -%}
-        {%- if page.collection == 'moments' or U_moments == '/moments/' -%}{%- assign is_moments_active = true -%}{%- endif -%}
+        {%- if page.collection == 'moments' or u_moments == '/moments/' -%}{%- assign is_moments_active = true -%}{%- endif -%}
 
         {%- assign is_research_index = false -%}
         {%- assign is_research_active = false -%}
@@ -88,24 +88,82 @@
           <a class="nav-item" href="{{ '/themes/' | relative_url }}">themes</a>
         {% endif %}
 
+         <!-- more (mobile overflow) -->
+        {%- assign more_active = false -%}
+        {%- if is_moments_active or is_moments_index or is_research_active or is_research_index -%}
+          {%- assign more_active = true -%}
+        {%- endif -%}
+        <details class="nav-more">
+          <summary class="nav-item nav-more__summary{% if more_active %} is-active{% endif %}" aria-haspopup="menu">
+            more
+          </summary>
+          <div class="nav-more__panel" role="menu">
+            {% if is_moments_index %}
+              <span class="nav-more__item is-active" aria-current="page">moments</span>
+            {% elsif is_moments_active %}
+              <a class="nav-more__item is-active" href="{{ '/moments/' | relative_url }}" aria-current="page">moments</a>
+            {% else %}
+              <a class="nav-more__item" href="{{ '/moments/' | relative_url }}">moments</a>
+            {% endif %}
+            {% if is_research_index %}
+              <span class="nav-more__item is-active" aria-current="page">research</span>
+            {% elsif is_research_active %}
+              <a class="nav-more__item is-active" href="{{ '/research/' | relative_url }}" aria-current="page">research</a>
+            {% else %}
+              <a class="nav-more__item" href="{{ '/research/' | relative_url }}">research</a>
+            {% endif %}
+          </div>
+        </details>
+
         <!-- moments -->
         {% if is_moments_index %}
-          <span class="nav-item is-active" aria-current="page">moments</span>
+          <span class="nav-item nav-item--overflow is-active" aria-current="page">moments</span>
         {% elsif is_moments_active %}
-          <a class="nav-item is-active" href="{{ '/moments/' | relative_url }}" aria-current="page">moments</a>
+          <a class="nav-item nav-item--overflow is-active" href="{{ '/moments/' | relative_url }}" aria-current="page">moments</a>
         {% else %}
-          <a class="nav-item" href="{{ '/moments/' | relative_url }}">moments</a>
+          <a class="nav-item nav-item--overflow" href="{{ '/moments/' | relative_url }}">moments</a>
         {% endif %}
 
         <!-- research -->
         {% if is_research_index %}
-          <span class="nav-item is-active" aria-current="page">research</span>
+          <span class="nav-item nav-item--overflow is-active" aria-current="page">research</span>
         {% elsif is_research_active %}
-          <a class="nav-item is-active" href="{{ '/research/' | relative_url }}" aria-current="page">research</a>
+          <a class="nav-item nav-item--overflow is-active" href="{{ '/research/' | relative_url }}" aria-current="page">research</a>
         {% else %}
-          <a class="nav-item" href="{{ '/research/' | relative_url }}">research</a>
+          <a class="nav-item nav-item--overflow" href="{{ '/research/' | relative_url }}">research</a>
         {% endif %}
       </nav>
+      <script>
+        (function () {
+          var more = document.querySelector('.nav-more');
+          if (!more) return;
+
+          // Close when clicking outside
+          document.addEventListener('click', function (e) {
+            if (!more.open) return;
+            if (more.contains(e.target)) return;
+            more.removeAttribute('open');
+          });
+
+          // Close on Escape
+          document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            if (!more.open) return;
+            more.removeAttribute('open');
+            var s = more.querySelector('summary');
+            if (s) s.focus();
+          });
+
+          // Close after selecting an item
+          more.addEventListener('click', function (e) {
+            var t = e.target;
+            if (!t) return;
+            if (t.tagName && t.tagName.toLowerCase() === 'a') {
+              more.removeAttribute('open');
+            }
+          });
+        })();
+      </script>
       <div class="site-header-spacer" aria-hidden="true"></div>
     </div>
   </header>
