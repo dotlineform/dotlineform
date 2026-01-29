@@ -730,8 +730,7 @@ def main() -> None:
     # - series_title
     # Optional columns:
     # - year_display (preferred display value)
-    # - year (fallback display value when year_display column absent)
-    # - series_ids (comma-separated; defaults to [series_id])
+    # - year (numeric; also fallback for display when year_display column absent)
 
     if not series_rows or len(series_rows) < 2:
         print("No series pages to generate (Series sheet empty).")
@@ -754,28 +753,25 @@ def main() -> None:
             title_raw = cell(sr, series_hi, "series_title")
             series_title = coerce_string(title_raw) or series_id
 
+            # Numeric year (optional)
+            year = coerce_int(cell(sr, series_hi, "year")) if "year" in series_hi else None
+
             # year_display handling:
             # - If Series sheet has a year_display column, use it (may be null).
-            # - If it does NOT have year_display, fall back to year.
+            # - If it does NOT have year_display, fall back to numeric year rendered as text
             year_display: Optional[str]
             if "year_display" in series_hi:
                 year_display = coerce_string(cell(sr, series_hi, "year_display"))
             else:
-                # Fall back to year (coerce to int -> string)
-                yv = coerce_int(cell(sr, series_hi, "year")) if "year" in series_hi else None
-                year_display = str(yv) if yv is not None else None
-
-            ids_raw = cell(sr, series_hi, "series_ids")
-            series_ids = parse_list(ids_raw, sep=",") if "series_ids" in series_hi else []
-            if not series_ids:
-                series_ids = [series_id]
+                # Fall back to numeric year rendered as text
+                year_display = str(year) if year is not None else None
 
             sfm: Dict[str, Any] = {
+                "series_id": series_id,
                 "title": series_title,
+                "year": year,
                 "year_display": year_display,
                 "layout": "series",
-                "series_id": series_id,
-                "series_ids": series_ids,
             }
 
             s_checksum = compute_work_checksum(sfm)
