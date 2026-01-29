@@ -719,7 +719,7 @@ pre.theme-text{
   height: 48px;
   object-fit: cover;
   flex: 0 0 auto;
-  border-radius: 2px;
+  border-radius: 6px;
   display: block;
   align-self: center;
 }
