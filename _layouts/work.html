@@ -28,8 +28,22 @@ layout: default
 
   <h1 class="visually-hidden">{% if title_txt != "" %}{{ title_txt }}{% else %}Untitled{% endif %}</h1>
 
+  <!-- Series navigation:
+     - If URL has ?series=series_id, try to load that series' work IDs from JSON.
+     - If successful, show Prev/Next links for navigating within that series.
+     - Otherwise hide the nav. -->
+  <nav class="seriesNav" id="seriesNav"
+      aria-label="Series navigation"
+      data-work-id="{{ page.work_id | escape }}"
+      hidden>
+    <a class="seriesNav__prev" id="seriesNavPrev" href="#">←</a>
+    <a class="seriesNav__next" id="seriesNavNext" href="#">→</a>
+  </nav>
+
   <figure class="page__media">
-    <a class="page__mediaLink" href="{{ src2400 }}" target="_blank" rel="noopener">
+    <a class="page__mediaLink"
+      href="{{ src2400 }}" target="_blank" rel="noopener"
+      style="--work-ar: {{ page.width_cm | default: 4 }} / {{ page.height_cm | default: 3 }};">
       <img
         class="page__mediaImg"
         src="{{ src1600 }}"
@@ -40,7 +54,8 @@ layout: default
           {{ src2400 }} 2400w"
         sizes="(max-width: 800px) 100vw, 72ch"
         alt="{{ title_txt | default: 'Artwork' | escape }}"
-        loading="lazy"
+        loading="eager"
+        fetchpriority="high"
         decoding="async"
         style="width:100%;height:auto;display:block;">
     </a>
@@ -160,18 +175,6 @@ layout: default
     }
   })();
 </script>
-
-<!-- Series navigation:
-     - If URL has ?series=series_id, try to load that series' work IDs from JSON.
-     - If successful, show Prev/Next links for navigating within that series.
-     - Otherwise hide the nav. -->
-<nav class="seriesNav" id="seriesNav"
-     aria-label="Series navigation"
-     data-work-id="{{ page.work_id | escape }}"
-     hidden>
-  <a class="seriesNav__prev" id="seriesNavPrev" href="#">Prev</a>
-  <a class="seriesNav__next" id="seriesNavNext" href="#">Next</a>
-</nav>
 
 <script>
 (function(){
