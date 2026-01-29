@@ -5,6 +5,8 @@ Generate Jekyll work pages from an Excel workbook.
 This repo stores works as a Jekyll collection in `_works/`. The generator writes one Markdown
 file per work (e.g. `_works/00286.md`) with YAML front matter populated from these worksheets:
 
+Series JSON index files are written to assets/series/index/<series_id>.json (one per series_id in the Series sheet).
+
 - Works: base work metadata (1 row per work)
 - Series: series master data (1 row per series_id)
 - WorkImages: images joined by work_id (0..n rows per work)
@@ -352,6 +354,31 @@ def extract_existing_checksum(path: Path) -> Optional[str]:
 
     return None
 
+# ----------------------------
+# Series JSON helpers
+# ----------------------------
+
+def compute_series_hash(series_id: str, work_ids: List[str]) -> str:
+    """Compute deterministic hash for a series JSON payload."""
+    payload = {"series_id": series_id, "work_ids": list(work_ids)}
+    canonical = json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    return hashlib.blake2b(canonical, digest_size=16).hexdigest()
+
+
+def extract_existing_series_hash(path: Path) -> Optional[str]:
+    """Extract header.hash from an existing series JSON file."""
+    try:
+        obj = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    header = obj.get("header") if isinstance(obj, dict) else None
+    if not isinstance(header, dict):
+        return None
+    hv = header.get("hash")
+    if hv is None:
+        return None
+    s = str(hv).strip()
+    return s or None
 
 # ----------------------------
 # Main program
@@ -380,6 +407,7 @@ def main() -> None:
     ap.add_argument("--theme-prose-dir", default="_includes/theme_prose", help="Folder for manual theme prose includes")
     ap.add_argument("--series-output-dir", default="_series", help="Output folder for generated series pages")
     ap.add_argument("--series-prose-dir", default="_includes/series_prose", help="Folder for manual series prose includes")
+    ap.add_argument("--series-json-dir", default="assets/series/index", help="Output folder for generated per-series JSON index files")
 
     # Write controls
     ap.add_argument("--write", action="store_true", help="Actually write files (otherwise dry-run)")
@@ -439,6 +467,9 @@ def main() -> None:
     series_prose_dir = Path(args.series_prose_dir).expanduser()
     series_prose_dir.mkdir(parents=True, exist_ok=True)
 
+    series_json_dir = Path(args.series_json_dir).expanduser()
+    series_json_dir.mkdir(parents=True, exist_ok=True)
+
     # Load all worksheets up-front.
     works_rows = read_sheet_rows(args.works_sheet)
     series_rows = read_sheet_rows(args.series_sheet)
@@ -469,6 +500,25 @@ def main() -> None:
         if title is None:
             continue
         series_title_by_id[sid] = title
+
+    # Pre-index work_ids by series_id (from Works sheet)
+    work_ids_by_series: Dict[str, List[str]] = {}
+    for wr in works_rows[1:]:
+        sid_raw = cell(wr, works_hi, "series_id")
+        if is_empty(sid_raw):
+            continue
+        sid = require_slug_safe("series_id", sid_raw)
+
+        wid_raw = cell(wr, works_hi, "work_id")
+        if is_empty(wid_raw):
+            continue
+        wid = slug_id(wid_raw)
+
+        work_ids_by_series.setdefault(sid, []).append(wid)
+
+    # Ensure deterministic ordering (alpha) for each series' work_ids
+    for sid in list(work_ids_by_series.keys()):
+        work_ids_by_series[sid] = sorted(work_ids_by_series[sid])
 
     # Pre-index images by work_id
     images_by_work: Dict[str, List[Dict[str, Any]]] = {}
@@ -816,6 +866,67 @@ def main() -> None:
 
         print(f"Series pages done. {'Would write' if not args.write else 'Wrote'}: {series_written}. Skipped: {series_skipped}.")
 
+        # ----------------------------
+        # Series JSON generation (Series + Works)
+        # ----------------------------
+        # Writes one JSON file per series_id listed in the Series sheet:
+        #   assets/series/index/<series_id>.json
+        # JSON structure:
+        # {
+        #   "header": {"series_id": "...", "count": N, "hash": "..."},
+        #   "work_ids": ["00286", "00361", ...]
+        # }
+
+        sj_written = 0
+        sj_skipped = 0
+        sj_total = max(len(series_rows) - 1, 0)
+        sj_processed = 0
+
+        for sr in series_rows[1:]:
+            sj_processed += 1
+            prefix_j = f"[seriesjson {sj_processed}/{sj_total}] "
+
+            sid_raw = cell(sr, series_hi, "series_id")
+            if is_empty(sid_raw):
+                sj_skipped += 1
+                continue
+            series_id = require_slug_safe("series_id", sid_raw)
+
+            work_ids = work_ids_by_series.get(series_id, [])
+            series_hash = compute_series_hash(series_id, work_ids)
+
+            payload = {
+                "header": {
+                    "series_id": series_id,
+                    "count": len(work_ids),
+                    "hash": series_hash,
+                },
+                "work_ids": work_ids,
+            }
+
+            out_json_path = series_json_dir / f"{series_id}.json"
+            exists = out_json_path.exists()
+
+            existing_hash = extract_existing_series_hash(out_json_path) if exists else None
+            if (existing_hash is not None) and (existing_hash == series_hash) and (not args.force):
+                print(f"{prefix_j}SKIP (hash match): {out_json_path}")
+                sj_skipped += 1
+                continue
+
+            if args.write:
+                out_json_path.write_text(
+                    json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+                print(f"{prefix_j}WRITE: {out_json_path}")
+                sj_written += 1
+            else:
+                print(f"{prefix_j}DRY-RUN: would write {out_json_path} (overwrite={exists})")
+                sj_written += 1
+
+        print(
+            f"Series JSON done. {'Would write' if not args.write else 'Wrote'}: {sj_written}. Skipped: {sj_skipped}."
+        )
 
 if __name__ == "__main__":
     main()

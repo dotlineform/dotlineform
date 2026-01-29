@@ -160,3 +160,65 @@ layout: default
     }
   })();
 </script>
+
+<!-- Series navigation:
+     - If URL has ?series=series_id, try to load that series' work IDs from JSON.
+     - If successful, show Prev/Next links for navigating within that series.
+     - Otherwise hide the nav. -->
+<nav class="seriesNav" id="seriesNav"
+     aria-label="Series navigation"
+     data-work-id="{{ page.work_id | escape }}"
+     hidden>
+  <a class="seriesNav__prev" id="seriesNavPrev" href="#">Prev</a>
+  <a class="seriesNav__next" id="seriesNavNext" href="#">Next</a>
+</nav>
+
+<script>
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const series = params.get('series');
+  if (!series) return; // direct visit / no context => hide nav
+
+  const nav = document.getElementById('seriesNav');
+  const prevA = document.getElementById('seriesNavPrev');
+  const nextA = document.getElementById('seriesNavNext');
+  if (!nav || !prevA || !nextA) return;
+
+  const currentId = (nav.dataset.workId || '').trim();
+  if (!currentId) return;
+
+  const baseurl = "{{ site.baseurl | default: '' }}".replace(/\/$/, '');
+  const jsonUrl = baseurl + "/assets/series/index/" + encodeURIComponent(series) + ".json";
+
+  fetch(jsonUrl, { cache: "default" })
+    .then(r => {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(data => {
+      // Accept either: ["00286","00361", ...] OR {work_ids:[...]} OR {items:[...]}
+      let ids = [];
+      if (Array.isArray(data)) ids = data;
+      else if (data && Array.isArray(data.work_ids)) ids = data.work_ids;
+      else if (data && Array.isArray(data.items)) ids = data.items;
+      ids = ids.map(String);
+
+      const i = ids.indexOf(currentId);
+      if (i === -1 || ids.length < 2) return;
+
+      // wrap-around: next from last => first; prev from first => last
+      const prevId = ids[(i - 1 + ids.length) % ids.length];
+      const nextId = ids[(i + 1) % ids.length];
+
+      const qs = "?series=" + encodeURIComponent(series);
+      prevA.href = baseurl + "/works/" + prevId + "/" + qs;
+      nextA.href = baseurl + "/works/" + nextId + "/" + qs;
+
+      nav.hidden = false;
+    })
+    .catch(() => {
+      // Fail closed: hide nav if JSON missing/unreadable
+      nav.hidden = true;
+    });
+})();
+</script>
