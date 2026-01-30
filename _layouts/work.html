@@ -97,36 +97,13 @@ layout: default
     </div>
   </section>
 
-  <!-- supplementary images gallery -->
-  {% if page.images and page.images.size > 0 %}
-    <section class="supplements">
-      <ul class="supplements__list">
-        {% for img in page.images %}
-          <li class="supplements__item">
-            {% assign img_file = img.file | remove_first: '/' %}
-            {% assign img_src = img_base | append: img_file %}
-            {% unless img_base contains '://' %}{% assign img_src = img_src | relative_url %}{% endunless %}
-            <img
-              src="{{ img_src }}"
-              alt="{{ img.alt | default: img.caption | default: page.title | escape }}"
-              loading="lazy"
-              decoding="async"
-              style="max-width:100%;height:auto;display:block;">
-            <!-- image caption not currently used (need to migrate to a grid + lightbox)-->
-            <!-- {% if img.caption %}<div>{{ img.caption }}</div>{% endif %} -->
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-  {% endif %}
-
   <!-- for other file types (PDFs, text files, etc.) -->
-  {% if page.attachments and page.attachments.size > 0 %}
+  {% if page.files and page.files.size > 0 %}
     <section class="supplements">
       <ul class="supplements__list">
-        {% for a in page.attachments %}
-          {% if a.file %}
-            {% assign href = a.file %}
+        {% for a in page.files %}
+          {% if a.file_id %}
+            {% assign href = a.file_id %}
             {% unless href contains '://' %}
               {% assign href_file = href | remove_first: '/' %}
               {% assign href = files_base | append: href_file %}
@@ -134,7 +111,7 @@ layout: default
                 {% assign href = href | relative_url %}
               {% endunless %}
             {% endunless %}
-            <li class="supplements__item"><a class="supplements__link supplements__link--pdf" href="{{ href }}">{{ a.label | default: "Download" }}</a></li>
+            <li class="supplements__item"><a class="supplements__link supplements__link--pdf" href="{{ href }}">{{ a.file_label | default: "Download" }}</a></li>
           {% endif %}
         {% endfor %}
       </ul>
