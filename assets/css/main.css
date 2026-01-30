@@ -412,7 +412,6 @@ figure.diagram figcaption{
   margin-right: auto;
 }
 
-/* align the index heading to the same measure */
 .index__heading{
   margin: 0 0 var(--space-3);
   font-size: clamp(1.125rem, 1.25vw, 1.375rem);
@@ -850,6 +849,9 @@ Use “structure-first” naming and scope section-specific differences via the 
 
 .page__title{
   margin: 0 0 var(--space-2);
+  font-size: clamp(1.125rem, 1.25vw, 1.375rem);
+  line-height: 1.15;
+  font-weight: 600;
 }
 
 .page__meta{

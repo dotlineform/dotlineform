@@ -67,8 +67,6 @@ layout: default
     <hr>
     <section class="theme__series">
       <div class="index">
-        <h2 class="index__heading">related series of work</h2>
-
         {%- for sid in page.series_ids -%}
           {%- assign series_doc = site.series | where: 'series_id', sid | first -%}
           {%- if series_doc -%}
