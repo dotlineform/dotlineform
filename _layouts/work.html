@@ -41,6 +41,7 @@ layout: default
   </nav>
 
   <figure class="page__media">
+    <!-- note: add debug-media-boxes to <a> to compare link vs image boxes -->
     <a class="page__mediaLink"
       href="{{ src2400 }}" target="_blank" rel="noopener"
       style="--work-ar: {{ page.width_cm | default: 4 }} / {{ page.height_cm | default: 3 }};">
@@ -62,7 +63,7 @@ layout: default
   </figure>
 
   <section class="page__meta page__media">
-    <h2 class="visually-hidden">Details</h2>
+    <h2 class="visually-hidden">work details</h2>
 
     <div class="page__caption">
       <div class="page__row work__titleRow">{% if title_txt != "" %}{{ title_txt }}{% else %}Untitled{% endif %}</div>

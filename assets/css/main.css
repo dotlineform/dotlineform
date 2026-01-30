@@ -877,15 +877,25 @@ Use “structure-first” naming and scope section-specific differences via the 
 
 .page__mediaLink{
   display: block;
-  aspect-ratio: var(--work-ar, 4 / 3); /* fallback if not set */
 }
 
 .page__mediaImg{
   display: block;
   width: 100%;
   max-width: 100%;
-  height: 100%;        /* was auto */
+  height: auto;
+  aspect-ratio: var(--work-ar, 4 / 3); /* fallback if not set */
   object-fit: contain; /* or cover */
+}
+
+/* Debug: add `debug-media-boxes` to <body> to compare link vs image boxes */
+.debug-media-boxes .page__mediaLink{
+  outline: 2px solid #d11;
+  outline-offset: 2px;
+}
+.debug-media-boxes .page__mediaImg{
+  outline: 2px solid #1166cc;
+  outline-offset: 2px;
 }
 
 /* Definition list meta (e.g., Work “Details”) */
