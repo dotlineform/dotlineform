@@ -485,6 +485,8 @@ figure.diagram figcaption{
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
+  justify-self: start;
+  width: fit-content;
 }
 
 .index__thumb{
@@ -503,6 +505,8 @@ figure.diagram figcaption{
   align-items: center;
   column-gap: 10px;
   padding: 8px 0;
+  justify-self: start;
+  width: fit-content;
 }
 .workCard__row{
   display: grid;
@@ -615,11 +619,17 @@ figure.diagram figcaption{
 /* .home-link is for interactive anchors; .home-link-text is for non-interactive fallback text in the same slot. */
 .home-link{
   font-size: 0.95rem;
+  display: inline-block;
+  justify-self: start;
+  width: fit-content;
 }
 .home-link-text{ 
   font-size: 0.9rem;
   font-weight: 600; 
   color: var(--text); 
+  display: inline-block;
+  justify-self: start;
+  width: fit-content;
 }
 .home-link-prefix{
   font-size: 0.9rem; /* original smaller 12px ≈ 0.75rem (assuming the default root is 16px) */
