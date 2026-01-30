@@ -285,11 +285,14 @@ th{ background: var(--panel-2); }
 /* Mobile “More” overflow nav (custom toggle) */
 .nav-more{ display: none; }
 
-/* Make summary look like your existing pills */
 .nav-more__summary{
   list-style: none;
   cursor: pointer;
   background: transparent;
+  font-size: 1.1rem; /* hamburger size */
+  line-height: 1;
+  font-weight: 700; /* bolder hamburger */
+  padding: 4px 10px;
 }
 .nav-more__summary::-webkit-details-marker{ display: none; } /* Safari/Chrome */
 
