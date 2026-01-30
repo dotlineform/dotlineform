@@ -93,11 +93,11 @@
         {%- if is_works_active or is_works_index or is_series_active or is_series_index or is_themes_active or is_themes_index or is_moments_active or is_moments_index or is_research_active or is_research_index -%}
           {%- assign more_active = true -%}
         {%- endif -%}
-        <details class="nav-more">
-          <summary class="nav-item nav-more__summary{% if more_active %} is-active{% endif %}" aria-haspopup="menu">
+        <div class="nav-more" data-nav-more>
+          <button class="nav-item nav-more__summary{% if more_active %} is-active{% endif %}" type="button" aria-haspopup="menu" aria-expanded="false">
             more
-          </summary>
-          <div class="nav-more__panel" role="menu">
+          </button>
+          <div class="nav-more__panel" role="menu" hidden>
             {% if is_works_index %}
               <span class="nav-more__item is-active" aria-current="page">works</span>
             {% elsif is_works_active %}
@@ -134,7 +134,7 @@
               <a class="nav-more__item" href="{{ '/research/' | relative_url }}">research</a>
             {% endif %}
           </div>
-        </details>
+        </div>
 
         <!-- moments -->
         {% if is_moments_index %}
@@ -156,23 +156,48 @@
       </nav>
       <script>
         (function () {
-          var more = document.querySelector('.nav-more');
+          var more = document.querySelector('[data-nav-more]');
           if (!more) return;
+          var summary = more.querySelector('.nav-more__summary');
+          var panel = more.querySelector('.nav-more__panel');
+          if (!summary || !panel) return;
 
-          // Close when clicking outside
-          document.addEventListener('click', function (e) {
-            if (!more.open) return;
+          function closeMenu() {
+            more.classList.remove('is-open');
+            summary.setAttribute('aria-expanded', 'false');
+            panel.setAttribute('hidden', '');
+          }
+
+          function openMenu() {
+            more.classList.add('is-open');
+            summary.setAttribute('aria-expanded', 'true');
+            panel.removeAttribute('hidden');
+          }
+
+          function toggleMenu() {
+            if (more.classList.contains('is-open')) {
+              closeMenu();
+            } else {
+              openMenu();
+            }
+          }
+
+          // Close when clicking/tapping outside
+          function closeIfOutside(e) {
             if (more.contains(e.target)) return;
-            more.removeAttribute('open');
-          });
+            closeMenu();
+          }
+          document.addEventListener('pointerdown', closeIfOutside, true);
+          document.addEventListener('touchstart', closeIfOutside, true);
+          document.addEventListener('mousedown', closeIfOutside, true);
+          document.addEventListener('click', closeIfOutside, true);
 
           // Close on Escape
           document.addEventListener('keydown', function (e) {
             if (e.key !== 'Escape') return;
-            if (!more.open) return;
-            more.removeAttribute('open');
-            var s = more.querySelector('summary');
-            if (s) s.focus();
+            if (!more.classList.contains('is-open')) return;
+            closeMenu();
+            summary.focus();
           });
 
           // Close after selecting an item
@@ -180,8 +205,13 @@
             var t = e.target;
             if (!t) return;
             if (t.tagName && t.tagName.toLowerCase() === 'a') {
-              more.removeAttribute('open');
+              closeMenu();
             }
+          });
+
+          summary.addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleMenu();
           });
         })();
       </script>

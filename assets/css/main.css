@@ -280,18 +280,19 @@ th{ background: var(--panel-2); }
   cursor: default;
 }
 
-/* Mobile “More” overflow nav (uses <details>/<summary>) */
+/* Mobile “More” overflow nav (custom toggle) */
 .nav-more{ display: none; }
 
 /* Make summary look like your existing pills */
 .nav-more__summary{
   list-style: none;
   cursor: pointer;
+  background: transparent;
 }
 .nav-more__summary::-webkit-details-marker{ display: none; } /* Safari/Chrome */
 
 /* Only style the active state for the summary (so we don't change your link-active behaviour elsewhere) */
-.site-nav summary.nav-item.is-active{
+.site-nav .nav-more__summary.is-active{
   background: var(--panel-2);
   border-color: var(--border);
   color: var(--text);
@@ -302,7 +303,7 @@ th{ background: var(--panel-2); }
   display: none; /* default closed */
 }
 
-.nav-more[open] .nav-more__panel{
+.nav-more.is-open .nav-more__panel{
   display: block;
   position: absolute;
   right: 0;
