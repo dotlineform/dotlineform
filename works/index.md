@@ -14,7 +14,7 @@ section: works
     <h1 class="index__heading">recent work</h1>
 
     {% for w in sorted_works limit: 6 %}
-      {% include work_index_item work=w %}
+      {% include work_index_item.html work=w %}
     {% endfor %}
   </div>
 
