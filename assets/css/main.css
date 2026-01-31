@@ -506,7 +506,7 @@ figure.diagram figcaption{
 }
 
 /* cards/_includes  */
-.workCard,
+.workIndexItem,
 .seriesCard{
   display: grid;
   grid-template-columns: 48px 1fr; /* thumb + text area */
@@ -516,18 +516,18 @@ figure.diagram figcaption{
   justify-self: start;
   width: fit-content;
 }
-.workCard__row{
+.workIndexItem__row{
   display: grid;
   grid-template-columns: 6ch 1fr; /* work_id + title */
   align-items: baseline;     /* baseline-align work_id + title */
   column-gap: 10px;
 }
-.workCard + .workCard{ margin-top: 6px; }
+.workIndexItem + .workIndexItem{ margin-top: 6px; }
 
 /* link colouring/behaviour (match index links) */
-.workCard:link,
-.workCard:active,
-.workCard:focus,
+.workIndexItem:link,
+.workIndexItem:active,
+.workIndexItem:focus,
 .seriesCard:link,
 .seriesCard:active,
 .seriesCard:focus{
@@ -536,27 +536,27 @@ figure.diagram figcaption{
   font-weight: 500;
 }
 
-.workCard:visited,
+.workIndexItem:visited,
 .seriesCard:visited{
   color: var(--link-visited);
   text-decoration: none !important;
   font-weight: 500;
 }
 
-.workCard:hover,
+.workIndexItem:hover,
 .seriesCard:hover{
   color: var(--link-hover);
   text-decoration: none !important;
 }
 
-.workCard:focus-visible,
+.workIndexItem:focus-visible,
 .seriesCard:focus-visible{
   outline: 2px solid var(--border-strong);
   outline-offset: 2px;
   text-decoration: none !important;
 }
 
-.workCard__img,
+.workIndexItem__img,
 .seriesCard__img{
   width: 48px;
   height: 48px;
@@ -567,28 +567,28 @@ figure.diagram figcaption{
   align-self: center;
 }
 
-.workCard__work_id{
+.workIndexItem__work_id{
   font-size: 12px;
   color: var(--muted);
   white-space: nowrap;
   line-height: 1.2;
 }
 
-.workCard__title,
+.workIndexItem__title,
 .seriesCard__title{
   font-weight: 500;
   line-height: 1.2;
 }
 
 /* Align the two text columns on the same baseline */
-.workCard__work_id,
-.workCard__title{
+.workIndexItem__work_id,
+.workIndexItem__title{
   align-self: baseline;
 }
 
 @media (max-width: 640px){
-  .workCard{ grid-template-columns: 1fr; row-gap: 8px; }
-  .workCard__row{ grid-template-columns: 1fr; row-gap: 2px; }
+  .workIndexItem{ grid-template-columns: 1fr; row-gap: 8px; }
+  .workIndexItem__row{ grid-template-columns: 1fr; row-gap: 2px; }
 }
 
 /* 7.	Page-type sections and overrides */
@@ -877,6 +877,11 @@ Use “structure-first” naming and scope section-specific differences via the 
   white-space: normal;
 }
 
+/* Series page: add breathing room between header and content */
+.series .content{
+  margin-top: var(--space-3);
+}
+
 /* Primary/top media on a page */
 .page__media{
   max-width: var(--content-measure);
@@ -1051,7 +1056,7 @@ Use “structure-first” naming and scope section-specific differences via the 
 .supplements__link--pdf::before{ content:"📄"; }
 
 
-/* Generic card component (future use; keep workCard as-is for now) */
+/* Generic card component (future use; keep workIndexItem as-is for now) */
 .card{
   display: block;
   text-decoration: none;

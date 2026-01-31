@@ -5,6 +5,9 @@ layout: default
 <article class="page series">
   <header class="page__header">
     <h1 class="page__title">{{ page.title }}</h1>
+    {% if page.year_display %}
+      <p class="page__meta muted small">{{ page.year_display }}</p>
+    {% endif %}
   </header>
 
   <div class="content">

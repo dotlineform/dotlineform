@@ -25,7 +25,7 @@ layout: default
         {%- for wid in work_ids -%}
           {%- assign work_doc = site.works | where: 'work_id', wid | first -%}
           {%- if work_doc -%}
-            {%- include work_card.html work=work_doc -%}
+            {%- include work_index_item work=work_doc -%}
           {%- else -%}
             <div class="index__item">
               <span class="index__work_id">{{ wid }}</span>
