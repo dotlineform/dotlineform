@@ -93,7 +93,14 @@ layout: default
       {% endif %}
 
       {% if page.work_id %}
-        <div class="page__row">cat. {{ page.work_id }}</div>
+        <div class="page__row">
+          cat. {{ page.work_id }}
+          {% if page.series_id %}
+            {% assign series_href = "/series/" | append: page.series_id | append: "/" %}
+            {% assign series_label = page.series_title | default: page.series_id %}
+            | <a class="work__seriesLink" href="{{ series_href | relative_url }}">{{ series_label }}</a>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
   </section>
